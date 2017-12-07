@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   check_client.c                                      :+:      :+:    :+:  */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amarquez <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,36 +12,35 @@
 
 # include <server.h>
 
-int				main(int argc, char **argv)
+/*
+** Remove client from array and set
+*/
+
+void		ft_remove_client(t_env *env, int sockfd, int index)
 {
 
 	/*
-	** server environment
+	** client connection closed info
 	*/
 
-	t_env				env;
+	printf("client with fd [%d] closed\n", sockfd);
 
 	/*
-	** Create a server
+	** close sockfd
 	*/
 
-	ft_create_server(argc, argv, &env);
+	ft_close(sockfd);
 
 	/*
-	** Initialize select info
+	** clear from our set
 	*/
 
-	ft_init_select(&env);
+	FD_CLR(sockfd, &env->allset);
 
 	/*
-	** Main loop for handling multiple clients simulaneously
+	** open space in array
 	*/
 
-	ft_main_loop(&env);
-	
-	/*
-	** End
-	*/
+	env->client[index] = -1;
 
-    return (EXIT_SUCCESS);
 }

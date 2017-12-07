@@ -13,6 +13,8 @@
 #ifndef SERVER_H
 # define SERVER_H
 
+# include <sys/select.h>
+
 /*
 ** header with prototypes, headers and constants used by both server & client
 */
@@ -36,5 +38,130 @@
 */
 
 #define	BUFFSIZE 8192
+
+/*
+** User information
+*/
+
+typedef struct 		s_user
+{
+
+	char			nick[NICKNAME_MAX];
+	int 			c_index;
+	struct s_user	*next;
+
+}					t_user;
+
+/*
+** Server environment
+*/
+
+typedef struct		s_env
+{
+
+	/*
+	** Server port
+	*/
+
+	int				port;
+
+	/*
+	** Server listenfd
+	*/
+
+	int				listenfd;
+
+	/*
+	** maxfd + 1 is the current value of the first argument to select(2)
+	*/
+
+	int				maxfd;
+
+	/*
+	** The highest index in the client array that is currently in use
+	*/
+
+	int				maxi;
+
+	/*
+	** As clients arrive, record their connected socket descriptor
+	** in the first available entry of the array
+	*/
+
+	int				client[FD_SETSIZE];
+
+	/*
+	** read set
+	*/
+
+	fd_set			rset;
+
+	/*
+	** all set
+	*/
+
+	fd_set			allset;
+
+	/*
+	** list of users of type t_user {}
+	*/
+
+	struct s_user	*users;
+
+}					t_env;
+
+/*
+** Initialize server port
+*/
+
+void				ft_init_server_port(int argc, char **argv, t_env *env);
+
+/*
+** Create a server
+*/
+
+void				ft_create_server(int argc, char **argv, t_env *env);
+
+/*
+** Initialize values for select
+*/
+
+void				ft_init_select(t_env *env);
+
+/*
+** Main loop for handling clients simulantaneously
+*/
+
+void				ft_main_loop(t_env *env);
+
+/*
+** Save new client
+*/
+
+void				ft_save_client(t_env *env, int connfd);
+
+/*
+** Accept a new client (if there are any)
+*/
+
+int					ft_accept_client(t_env *env);
+
+/*
+** Check all clients for data
+*/
+
+void				ft_check_client(t_env *env, int *nready);
+
+/*
+** Remove client from array and set
+*/
+
+void				ft_remove_client(t_env *env, int sockfd, int index);
+
+/*
+** Create a new user and add to list
+*/
+
+void				ft_create_user(t_env *env, int c_index);
 
 #endif

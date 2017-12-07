@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   init_server_port.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amarquez <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,36 +12,44 @@
 
 # include <server.h>
 
-int				main(int argc, char **argv)
+/*
+** Find port number and set int env var
+*/
+
+void		ft_init_server_port(int argc, char **argv, t_env *env)
 {
 
-	/*
-	** server environment
-	*/
-
-	t_env				env;
+	int 	port;
 
 	/*
-	** Create a server
+	** Check that a port is passed
 	*/
 
-	ft_create_server(argc, argv, &env);
+	if (argc != 2)
+		ft_dump_usage();
 
 	/*
-	** Initialize select info
+	** Set port
 	*/
 
-	ft_init_select(&env);
+	port = ft_atoi(argv[1]);
 
 	/*
-	** Main loop for handling multiple clients simulaneously
+	** Valid port #
 	*/
 
-	ft_main_loop(&env);
-	
-	/*
-	** End
-	*/
+	if (port > 0)
+	{
 
-    return (EXIT_SUCCESS);
+		/*
+		** set in server env
+		*/
+
+		env->port = port;
+
+	}
+	else
+		ft_dump_usage();
+
+	return ;
 }

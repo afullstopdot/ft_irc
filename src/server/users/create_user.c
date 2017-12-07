@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   create_user.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amarquez <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,36 +12,48 @@
 
 # include <server.h>
 
-int				main(int argc, char **argv)
+/*
+** create a new user by using client index
+*/
+
+void		ft_create_user(t_env *env, int c_index)
 {
 
-	/*
-	** server environment
-	*/
-
-	t_env				env;
+	t_user	*user;
 
 	/*
-	** Create a server
+	** Allocate memory
 	*/
 
-	ft_create_server(argc, argv, &env);
+	if ((user = (t_user *)malloc(sizeof(t_user))))
+	{
 
-	/*
-	** Initialize select info
-	*/
+		/*
+		** nickname is empty by default
+		*/
 
-	ft_init_select(&env);
+		ft_memset(user->nick, 'X', NICKNAME_MAX);
 
-	/*
-	** Main loop for handling multiple clients simulaneously
-	*/
+		/*
+		** Set index of user in clients array
+		*/
 
-	ft_main_loop(&env);
-	
-	/*
-	** End
-	*/
+		user->c_index = c_index;
 
-    return (EXIT_SUCCESS);
+		/*
+		** Push to front of list
+		*/
+
+		user->next = env->users;
+
+		/*
+		** env point to head
+		*/
+
+		env->users = user;
+
+	}
+	else
+		ft_fatal_error("failed to malloc memory");
+
 }

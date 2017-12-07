@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   save_client.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amarquez <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,36 +12,56 @@
 
 # include <server.h>
 
-int				main(int argc, char **argv)
+/*
+** Accept a new client (if there are any)
+*/
+
+int						ft_accept_client(t_env *env)
 {
 
-	/*
-	** server environment
-	*/
-
-	t_env				env;
+	struct sockaddr_in	cliaddr;
+	socklen_t			clilen;
+	int					connfd;
 
 	/*
-	** Create a server
+	** Check if there are any new client connections
 	*/
 
-	ft_create_server(argc, argv, &env);
+	if (FD_ISSET(env->listenfd, &env->rset))
+	{
 
-	/*
-	** Initialize select info
-	*/
+		/*
+		** Client addr {} len
+		*/
 
-	ft_init_select(&env);
+		clilen = sizeof(cliaddr);
 
-	/*
-	** Main loop for handling multiple clients simulaneously
-	*/
+		/*
+		** Accept client, kernel fills cliaddr {}
+		*/
 
-	ft_main_loop(&env);
-	
-	/*
-	** End
-	*/
+		connfd = ft_accept(env->listenfd, (SA *) &cliaddr, &clilen);
 
-    return (EXIT_SUCCESS);
+		/*
+		** Print out new client connected
+		*/
+
+		printf("New client connected\n");
+
+		/*
+		** Save new client descriptor
+		*/
+
+		ft_save_client(env, connfd);
+
+		/*
+		** Return TRUE, so caller can check if there are more clients ready
+		*/
+
+		return (TRUE);
+
+	}
+
+	return (FALSE);
+
 }

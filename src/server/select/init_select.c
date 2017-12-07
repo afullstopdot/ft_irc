@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   init_select.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amarquez <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,36 +12,64 @@
 
 # include <server.h>
 
-int				main(int argc, char **argv)
+/*
+** Initialize values for select
+*/
+
+void		ft_init_select(t_env *env)
 {
 
-	/*
-	** server environment
-	*/
-
-	t_env				env;
+	int 	i;
 
 	/*
-	** Create a server
+	** counter
 	*/
 
-	ft_create_server(argc, argv, &env);
+	i = 0;
 
 	/*
-	** Initialize select info
+	** maxfd + 1 is the current value of the first argument to select(2)
 	*/
 
-	ft_init_select(&env);
+	env->maxfd = env->listenfd;
 
 	/*
-	** Main loop for handling multiple clients simulaneously
+	** the highest index in the client array that is currently in use
 	*/
 
-	ft_main_loop(&env);
-	
+	env->maxi = -1;
+
 	/*
-	** End
+	** initialize clients --
 	*/
 
-    return (EXIT_SUCCESS);
+	while (i < FD_SETSIZE)
+	{
+
+		/*
+		** -1 indicates available entry
+		*/
+
+		env->client[i] = -1;
+
+		/*
+		** increment counter
+		*/
+
+		i++;
+
+	}
+
+	/*
+	** Initialize set (by setting all bits to off)
+	*/
+
+	FD_ZERO(&env->allset);
+
+	/*
+	** Turn on bit for listenfd
+	*/
+
+	FD_SET(env->listenfd, &env->allset);
+
 }

@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   main_loop.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amarquez <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,36 +12,56 @@
 
 # include <server.h>
 
-int				main(int argc, char **argv)
+/*
+** Main loop for handling clients simulantaneously
+*/
+
+void					ft_main_loop(t_env *env)
 {
+	int					nready;
 
 	/*
-	** server environment
+	** Infinite loop
 	*/
 
-	t_env				env;
+	while (42)
+	{
 
-	/*
-	** Create a server
-	*/
+		/*
+		** structure assignment
+		*/
 
-	ft_create_server(argc, argv, &env);
+		env->rset = env->allset;
 
-	/*
-	** Initialize select info
-	*/
+		/*
+		** read select
+		*/
 
-	ft_init_select(&env);
+		nready = ft_select(env->maxfd + 1, &env->rset, NULL, NULL, NULL);
 
-	/*
-	** Main loop for handling multiple clients simulaneously
-	*/
+		/*
+		** Check if there are any new client connections
+		*/
 
-	ft_main_loop(&env);
-	
-	/*
-	** End
-	*/
+		if (ft_accept_client(env))
+		{
 
-    return (EXIT_SUCCESS);
+			/*
+			** Check if there are no more readable descriptors
+			*/
+
+			if (--nready <= 0)
+				continue ;
+
+		}
+
+		/*
+		** Check all clients for data
+		*/
+
+		ft_check_client(env, &nready);
+
+	}
+
+    return ;
 }

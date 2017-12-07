@@ -19,7 +19,7 @@
 # include <sys/types.h>
 # include <sys/socket.h>
 # include <arpa/inet.h>
-# include <errno.h> //remove on production
+# include <errno.h> //remove on submission
 # include <libft.h>
 
 /*
@@ -50,7 +50,13 @@
 ** shortens all the typecasts of pointer arguments
 */
 
-# define	SA struct sockaddr
+# define SA struct sockaddr
+
+/*
+** maximum length of a nickname
+*/
+
+# define NICKNAME_MAX 9
 
 /*
 ** Usage & Error prototypes for (client & server)
