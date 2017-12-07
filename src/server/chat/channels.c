@@ -197,6 +197,7 @@ char 			*ft_channel_list(t_env *env, int c_index)
 		if (head->c_index == c_index)
 		{
 
+			// not working from here, no users even tho i i know there are supposed to be some
 			t_user	*tmp = head->curr_channel->users;
 
 			while (tmp)
@@ -213,6 +214,6 @@ char 			*ft_channel_list(t_env *env, int c_index)
 
 	}
 
-	return (ft_strdup("tsek"));
+	return (ft_strdup("tsek\n"));
 
 }
