@@ -43,72 +43,90 @@
 ** User information
 */
 
-typedef struct 		s_user
+typedef struct 			s_user
 {
 
-	char			nick[NICKNAME_MAX];
-	int 			c_index;
-	struct s_user	*next;
+	char				nick[NICKNAME_MAX];
+	int 				c_index;
+	struct s_channels	*curr_channel;
+	struct s_user		*next;
 
-}					t_user;
+}						t_user;
+
+/*
+** Channels on server
+*/
+
+typedef struct 			s_channels
+{
+	char				*name;
+	struct s_user 		*users;
+	struct s_channels	*next;
+}						t_channels;
 
 /*
 ** Server environment
 */
 
-typedef struct		s_env
+typedef struct			s_env
 {
 
 	/*
 	** Server port
 	*/
 
-	int				port;
+	int					port;
 
 	/*
 	** Server listenfd
 	*/
 
-	int				listenfd;
+	int					listenfd;
 
 	/*
 	** maxfd + 1 is the current value of the first argument to select(2)
 	*/
 
-	int				maxfd;
+	int					maxfd;
 
 	/*
 	** The highest index in the client array that is currently in use
 	*/
 
-	int				maxi;
+	int					maxi;
 
 	/*
 	** As clients arrive, record their connected socket descriptor
 	** in the first available entry of the array
 	*/
 
-	int				client[FD_SETSIZE];
+	int					client[FD_SETSIZE];
 
 	/*
 	** read set
 	*/
 
-	fd_set			rset;
+	fd_set				rset;
 
 	/*
 	** all set
 	*/
 
-	fd_set			allset;
+	fd_set				allset;
 
 	/*
 	** list of users of type t_user {}
 	*/
 
-	struct s_user	*users;
+	struct s_user		*users;
 
-}					t_env;
+	/*
+	** channels
+	*/
+
+	struct s_channels	*channels;
+
+}						t_env;
 
 /*
 ** Initialize server port
@@ -205,5 +223,23 @@ char				*ft_uerror(char *msg);
 */
 
 char				*ft_resp(char *start, char *msg);
+
+/*
+** Create a channel if it does not exists
+*/
+
+void				ft_channel_create(t_env *env, char *name);
+
+/*
+** join a channel
+*/
+
+char				*ft_channel_join(t_env *env, char **argv, int c_index);
+
+/*
+** list all users on a channel
+*/
+
+char 				*ft_channel_list(t_env *env, int c_index);
 
 #endif

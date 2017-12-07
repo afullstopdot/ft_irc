@@ -70,9 +70,10 @@ void					ft_create_server(int argc, char **argv, t_env *env)
 	ft_listen(env->listenfd, LISTENQ);
 
 	/*
-	** Default users
+	** Default
 	*/
 
 	env->users = NULL;
+	env->channels = NULL;
 
 }

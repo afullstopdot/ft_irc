@@ -41,6 +41,12 @@ void		ft_create_user(t_env *env, int c_index)
 		user->c_index = c_index;
 
 		/*
+		** current channel connected on
+		*/
+
+		user->curr_channel = NULL;
+
+		/*
 		** Push to front of list
 		*/
 
