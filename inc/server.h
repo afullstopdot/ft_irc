@@ -164,4 +164,46 @@ void				ft_remove_client(t_env *env, int sockfd, int index);
 
 void				ft_create_user(t_env *env, int c_index);
 
+/*
+** Handle commands
+*/
+
+char				*ft_handle_command(t_env *env, char *buf, int c_index);
+
+/*
+** set username
+*/
+
+char				*ft_set_username(t_env *env, char **argv, int c_index);
+
+/*
+** get username
+*/
+
+char				*ft_get_username(t_env *env, int c_index);
+
+/*
+** invalid command
+*/
+
+char				*ft_invalid_command(void);
+
+/*
+** success msg
+*/
+
+char				*ft_usuccess(char *msg);
+
+/*
+** error msg
+*/
+
+char				*ft_uerror(char *msg);
+
+/*
+** color message
+*/
+
+char				*ft_resp(char *start, char *msg);
+
 #endif

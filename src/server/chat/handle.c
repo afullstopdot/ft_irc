@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   save_client.c                                      :+:      :+:    :+:   */
+/*   handle.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amarquez <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -13,55 +13,34 @@
 # include <server.h>
 
 /*
-** Accept a new client (if there are any)
+** Handle commands
 */
 
-int						ft_accept_client(t_env *env)
+char		*ft_handle_command(t_env *env, char *buf, int c_index)
 {
 
-	struct sockaddr_in	cliaddr;
-	socklen_t			clilen;
-	int					connfd;
+	char	**argv;
 
 	/*
-	** Check if there are any new client connections
+	** break recieved buffer to check if valid command > execute
 	*/
 
-	if (FD_ISSET(env->listenfd, &env->rset))
+	if ((argv = ft_strsplit(buf, ' ')))
 	{
 
 		/*
-		** Client addr {} len
+		** Set username
 		*/
 
-		clilen = sizeof(cliaddr);
-
-		/*
-		** Accept client, kernel fills cliaddr {}
-		*/
-
-		connfd = ft_accept(env->listenfd, (SA *) &cliaddr, &clilen);
-
-		/*
-		** dump connection info
-		*/
-
-		printf("new client: %s, port %d\n", inet_ntoa(cliaddr.sin_addr), ntohs(cliaddr.sin_port));
-
-		/*
-		** Save new client descriptor
-		*/
-
-		ft_save_client(env, connfd);
-
-		/*
-		** Return TRUE, so caller can check if there are more clients ready
-		*/
-
-		return (TRUE);
+		if (ft_strequ(ft_strtrim(argv[0]), "/nick") && argv[1])
+			return (ft_set_username(env, argv, c_index));
+		else if (ft_strequ(ft_strtrim(argv[0]), "/whoami"))
+			return (ft_get_username(env, c_index));
+		else
+			return (ft_invalid_command());
 
 	}
 
-	return (FALSE);
+	return (ft_invalid_command());
 
 }

@@ -23,6 +23,7 @@ void		ft_check_client(t_env *env, int *nready)
 	int		sockfd;
 	size_t	n;
 	char	buf[MAXLINE];
+	char	*resp;
 
 	/*
 	** counter
@@ -78,15 +79,20 @@ void		ft_check_client(t_env *env, int *nready)
 				** Handle command
 				*/
 
-
+				resp = ft_handle_command(env, buf, i);
 
 				/*
-				** write (done without select)
+				** write to client (not completely okay cause i dont select on writes only reads)
 				*/
 
-				// ft_writen(sockfd, buf, n);
-				printf("%s", buf);
-			
+				ft_writen(sockfd, resp, ft_strlen(resp));
+
+				/*
+				** clear
+				*/
+
+				ft_strdel(&resp);
+
 			}
 
 			if (--(*nready) <= 0)

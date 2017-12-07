@@ -32,7 +32,7 @@ void		ft_create_user(t_env *env, int c_index)
 		** nickname is empty by default
 		*/
 
-		ft_memset(user->nick, 'X', NICKNAME_MAX);
+		ft_memset(user->nick, 0, NICKNAME_MAX);
 
 		/*
 		** Set index of user in clients array

@@ -54,6 +54,7 @@ void	ft_save_client(t_env *env, int connfd)
 			break ;
 
 		}
+		i++;
 
 	}
 
@@ -61,7 +62,7 @@ void	ft_save_client(t_env *env, int connfd)
 	** Create user and add to list
 	*/
 
-	// ft_create_user(env, i);
+	ft_create_user(env, i);
 
 	/*
 	** Check that we still have space for new clients after trying to save new client

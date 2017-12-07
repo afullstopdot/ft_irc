@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   save_client.c                                      :+:      :+:    :+:   */
+/*   username.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amarquez <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -13,55 +13,57 @@
 # include <server.h>
 
 /*
-** Accept a new client (if there are any)
+** error msg
 */
 
-int						ft_accept_client(t_env *env)
+char		*ft_uerror(char *msg)
 {
 
-	struct sockaddr_in	cliaddr;
-	socklen_t			clilen;
-	int					connfd;
+	char	*resp;
 
 	/*
-	** Check if there are any new client connections
+	** build message
 	*/
 
-	if (FD_ISSET(env->listenfd, &env->rset))
+	if ((resp = ft_strjoin(C_RED, msg)))
 	{
 
 		/*
-		** Client addr {} len
+		** reset color
 		*/
 
-		clilen = sizeof(cliaddr);
-
-		/*
-		** Accept client, kernel fills cliaddr {}
-		*/
-
-		connfd = ft_accept(env->listenfd, (SA *) &cliaddr, &clilen);
-
-		/*
-		** dump connection info
-		*/
-
-		printf("new client: %s, port %d\n", inet_ntoa(cliaddr.sin_addr), ntohs(cliaddr.sin_port));
-
-		/*
-		** Save new client descriptor
-		*/
-
-		ft_save_client(env, connfd);
-
-		/*
-		** Return TRUE, so caller can check if there are more clients ready
-		*/
-
-		return (TRUE);
+		return (ft_strjoin(resp, C_RST));
 
 	}
 
-	return (FALSE);
+	return (ft_strdup(msg));
+
+}
+
+/*
+** success msg
+*/
+
+char		*ft_usuccess(char *msg)
+{
+
+	char	*resp;
+
+	/*
+	** build message
+	*/
+
+	if ((resp = ft_strjoin(C_GRN, msg)))
+	{
+
+		/*
+		** reset color
+		*/
+
+		return (ft_strjoin(resp, C_RST));
+
+	}
+
+	return (ft_strdup(msg));
 
 }
