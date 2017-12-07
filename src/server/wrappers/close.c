@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   usage.c                                            :+:      :+:    :+:   */
+/*   close.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amarquez <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -13,21 +13,17 @@
 # include <server.h>
 
 /*
-** dump the correct usage
+** close a file descriptor
 */
 
-void    ft_dump_usage(void)
+void	ft_close(int fd)
 {
 
 	/*
-	** Dump the program usage
+	** Attempt to close, on fail dump error msg and exit
 	*/
 
-    printf("usage: ./server <port>\n");
+	if (close(fd) == -1)
+		ft_fatal_error("failed to close file descriptor");
 
-    /*
-    ** Exit
-    */
-
-	exit(EXIT_SUCCESS);
 }

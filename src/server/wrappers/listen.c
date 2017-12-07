@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   usage.c                                            :+:      :+:    :+:   */
+/*   listen.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amarquez <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -13,21 +13,43 @@
 # include <server.h>
 
 /*
-** dump the correct usage
+** listen for connections on a socket
 */
 
-void    ft_dump_usage(void)
+void		ft_listen(int fd, int backlog)
 {
 
+	char	*ptr;
+
 	/*
-	** Dump the program usage
+	** Can override 2nd argument with an environment variable
 	*/
 
-    printf("usage: ./server <port>\n");
+	if ((ptr = getenv("LISTENQ")) != NULL)
+	{
 
-    /*
-    ** Exit
-    */
+		/*
+		** How many clients can the server backlog
+		*/
 
-	exit(EXIT_SUCCESS);
+		backlog = ft_atoi(ptr);
+	
+	}
+
+	/*
+	** List for connections on a socket
+	*/
+
+	if (listen(fd, backlog) < 0)
+	{
+
+		/*
+		** Failed to listen on the socket
+		** Dump error and exit
+		*/
+
+		ft_fatal_error("failed to listen on socket");
+
+	}
+
 }

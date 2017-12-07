@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   usage.c                                            :+:      :+:    :+:   */
+/*   accept.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amarquez <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -13,21 +13,29 @@
 # include <server.h>
 
 /*
-** dump the correct usage
+** accept a connection on a socket
 */
 
-void    ft_dump_usage(void)
+int			ft_accept(int fd, struct sockaddr *sa, socklen_t *salenptr)
 {
 
+	int		n;
+
 	/*
-	** Dump the program usage
+	** Attempt to accept a connection, on failure exit program
 	*/
 
-    printf("usage: ./server <port>\n");
+	if ((n = accept(fd, sa, salenptr)) < 0)
+	{
 
-    /*
-    ** Exit
-    */
+		/*
+		** dump error message
+		*/
 
-	exit(EXIT_SUCCESS);
+		ft_fatal_error("failed to accept connection");
+
+	}
+
+	return (n);
+
 }

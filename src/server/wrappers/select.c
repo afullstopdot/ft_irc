@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   usage.c                                            :+:      :+:    :+:   */
+/*   select.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amarquez <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -13,21 +13,32 @@
 # include <server.h>
 
 /*
-** dump the correct usage
+** synchronous I/O multiplexing
 */
 
-void    ft_dump_usage(void)
+int			ft_select(int nfds, fd_set *readfds, fd_set *writefds, fd_set *exceptfds, struct timeval *timeout)
 {
+	int		n;
 
 	/*
-	** Dump the program usage
+	** block with select, if failure. exit with dump
 	*/
 
-    printf("usage: ./server <port>\n");
+	if ((n = select(nfds, readfds, writefds, exceptfds, timeout)) < 0)
+	{
 
-    /*
-    ** Exit
-    */
+		/*
+		** dump error message
+		*/
 
-	exit(EXIT_SUCCESS);
+		ft_fatal_error("failed to select");
+
+	}
+
+	/*
+	** could possibly return 0 on timeout
+	*/
+
+	return (n);
+
 }

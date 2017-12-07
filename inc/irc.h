@@ -16,14 +16,22 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
+# include <sys/types.h>
+# include <sys/socket.h>
+# include <arpa/inet.h>
+# include <errno.h> //remove on production
 # include <libft.h>
 
 /*
 ** TRUE / FALSE constants
 */
 
-# define TRUE 1
-# define FALSE 0
+#ifndef TRUE
+	# define TRUE 1
+#endif
+#ifndef FALSE
+	# define FALSE 0
+#endif
 
 /*
 ** Colors
@@ -39,10 +47,29 @@
 # define C_RST "\x1B[0m"
 
 /*
-** Usage & Error prototypes
+** shortens all the typecasts of pointer arguments
+*/
+
+# define	SA struct sockaddr
+
+/*
+** Usage & Error prototypes for (client & server)
 */
 
 void                    ft_fatal_error(char *msg);
 void                    ft_dump_usage(void);
+
+/*
+** Wrappers
+*/
+
+void					ft_bind(int fd, const struct sockaddr *sa, socklen_t salen);
+void					ft_listen(int fd, int backlog);
+int						ft_accept(int fd, struct sockaddr *sa, socklen_t *salenptr);
+int						ft_socket(int domain, int type, int protocol);
+int						ft_select(int nfds, fd_set *readfds, fd_set *writefds, fd_set *exceptfds, struct timeval *timeout);
+ssize_t					ft_read(int fd, void *ptr, size_t nbytes);
+void					ft_writen(int fd, void *ptr, size_t nbytes);
+void					ft_close(int fd);
 
 #endif

@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   usage.c                                            :+:      :+:    :+:   */
+/*   read.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amarquez <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -13,21 +13,29 @@
 # include <server.h>
 
 /*
-** dump the correct usage
+** read from a file descriptor
 */
 
-void    ft_dump_usage(void)
+ssize_t			ft_read(int fd, void *ptr, size_t nbytes)
 {
 
+	ssize_t		n;
+
 	/*
-	** Dump the program usage
+	** Attempt to read nbytes, on failure exit
 	*/
 
-    printf("usage: ./server <port>\n");
+	if ((n = read(fd, ptr, nbytes)) == -1)
+	{
+	
+		/*
+		** dump error and exit
+		*/
 
-    /*
-    ** Exit
-    */
+		ft_fatal_error("failed to read from file descriptor");
+	
+	}
 
-	exit(EXIT_SUCCESS);
+	return (n);
+
 }

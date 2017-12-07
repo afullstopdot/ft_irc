@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   usage.c                                            :+:      :+:    :+:   */
+/*   server.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amarquez <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,24 +10,31 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-# include <server.h>
+#ifndef SERVER_H
+# define SERVER_H
 
 /*
-** dump the correct usage
+** header with prototypes, headers and constants used by both server & client
 */
 
-void    ft_dump_usage(void)
-{
+# include <irc.h>
 
-	/*
-	** Dump the program usage
-	*/
+/*
+** 2nd argument to listen()
+*/
 
-    printf("usage: ./server <port>\n");
+# define LISTENQ 1024
 
-    /*
-    ** Exit
-    */
+/*
+** max text line length
+*/
 
-	exit(EXIT_SUCCESS);
-}
+#define	MAXLINE	4096
+
+/*
+** buffer size for reads and writes
+*/
+
+#define	BUFFSIZE 8192
+
+#endif

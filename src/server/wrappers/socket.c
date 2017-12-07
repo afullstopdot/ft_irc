@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   usage.c                                            :+:      :+:    :+:   */
+/*   socket.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amarquez <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -13,21 +13,31 @@
 # include <server.h>
 
 /*
-** dump the correct usage
+** create an endpoint for communication
 */
 
-void    ft_dump_usage(void)
+int		ft_socket(int domain, int type, int protocol)
 {
 
+	int	fd;
+
+	fd = -1;
+
 	/*
-	** Dump the program usage
+	** Attempt to create a socket
 	*/
 
-    printf("usage: ./server <port>\n");
+	if ((fd = socket(domain, type, protocol)) < 0)
+	{
 
-    /*
-    ** Exit
-    */
+		/*
+		** Failed to create a socket, dump error and exit
+		*/
 
-	exit(EXIT_SUCCESS);
+		ft_fatal_error("failed to create a socket");
+	
+	}
+
+	return (fd);
+
 }

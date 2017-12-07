@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   usage.c                                            :+:      :+:    :+:   */
+/*   bind.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amarquez <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -13,21 +13,26 @@
 # include <server.h>
 
 /*
-** dump the correct usage
+** bind a name to a socket
 */
 
-void    ft_dump_usage(void)
+void	ft_bind(int fd, const struct sockaddr *sa, socklen_t salen)
 {
 
 	/*
-	** Dump the program usage
+	** Attempt to bind a socket to a addr
+	** If this fails, exit the program
 	*/
 
-    printf("usage: ./server <port>\n");
+	if (bind(fd, sa, salen) < 0)
+	{
 
-    /*
-    ** Exit
-    */
+		/*
+		** fatal error - exit after dumping error
+		*/
 
-	exit(EXIT_SUCCESS);
+		ft_fatal_error("failed to bind name to a socket");
+
+	}
+
 }

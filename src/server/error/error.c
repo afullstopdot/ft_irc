@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-# include <irc.h>
+# include <server.h>
 
 /*
 ** Fatal error, end program
@@ -18,6 +18,17 @@
 
 void    ft_fatal_error(char *msg)
 {
-    printf("ft_traceroute: %s%s%s\n", C_RED, msg, C_RST);
+
+	/*
+	** colorful error message lol
+	*/
+
+    printf("server: %s%s%s\n", C_RED, msg, C_RST);
+
+    /*
+    ** exit with failed status code
+    */
+
     exit(EXIT_FAILURE);
+
 }
