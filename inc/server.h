@@ -296,4 +296,16 @@ void					ft_delete_user(t_user **head, int key);
 
 char					*ft_channel_leave(t_env *env, char **argv, int c_index);
 
+/*
+** Send message
+*/
+
+char					*ft_send_message(t_env *env, char **argv, int c_index);
+
+/*
+** get client by username
+*/
+
+int 					ft_get_client(t_user *users, char *name);
+
 #endif

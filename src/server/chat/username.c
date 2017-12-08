@@ -147,3 +147,48 @@ char		*ft_get_username(t_env *env, int c_index)
 	return (ft_uerror("$[server]: you have not set a username, set with /nick <name>\n"));
 
 }
+
+/*
+** get client by username
+*/
+
+int 		ft_get_client(t_user *users, char *name)
+{
+
+	t_user	*head;
+
+	head = users;
+
+	/*
+	**
+	*/
+
+	while (head)
+	{
+
+		/*
+		** Find user by name
+		*/
+
+		if (head->nick && ft_strequ(head->nick, name))
+		{
+
+			/*
+			** return client index
+			*/
+
+			return (head->c_index);
+
+		}
+
+		/*
+		** increment
+		*/
+
+		head = head->next;
+
+	}
+
+	return (-1);
+
+}

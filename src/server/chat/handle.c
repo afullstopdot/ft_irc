@@ -57,6 +57,13 @@ char		*ft_handle_command(t_env *env, char *buf, int c_index)
 			return (ft_channel_leave(env, argv, c_index));
 
 		/*
+		** Send a message
+		*/
+
+		else if (ft_strequ(ft_strtrim(argv[0]), "/msg") && argv[1] && argv[2])
+			return (ft_send_message(env, argv, c_index));
+
+		/*
 		** List all users on channel
 		*/
 
