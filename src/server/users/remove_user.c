@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_client.c                                      :+:      :+:    :+:  */
+/*   remove_user.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amarquez <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -13,53 +13,48 @@
 # include <server.h>
 
 /*
-** Remove client from array and set
+** remove a client from users/channels linked list, before closing connection
 */
 
-void		ft_remove_client(t_env *env, int sockfd, int index)
+void			ft_remove_user(t_env *env, int c_index)
 {
 
-	/*
-	** client connection closed info
-	*/
-
-	printf("client with fd [%d] closed\n", sockfd);
+	t_channels	*channels;
 
 	/*
-	** close sockfd
+	** Find our user by client index, and remove from list
 	*/
 
-	ft_close(sockfd);
+	ft_delete_user(&env->users, c_index);
 
 	/*
-	** clear from our set
+	** Find all the channels the user is a part of, and remove him from them
 	*/
 
-	FD_CLR(sockfd, &env->allset);
-
-	/*
-	** open space in array
-	*/
-
-	env->client[index] = -1;
-
-	/*
-	** remove from user/channels list
-	*/
-
-	ft_remove_user(env, index);
-
-	/*
-	** temp
-	*/
-
-	t_user *user = env->users;
-	int num = 0;
-	while (user)
+	if ((channels = env->channels))
 	{
-		num++;
-		user = user->next;
+
+		/*
+		** Loop through all the channels
+		*/
+
+		while (channels)
+		{
+
+			/*
+			** All the users on this channel
+			*/
+
+			ft_delete_user(&channels->users, c_index);
+
+			/*
+			** Increment counter
+			*/
+
+			channels = channels->next;
+
+		}
 	}
-	printf("> [ %d ] user(s) online\n", num);
+
 
 }

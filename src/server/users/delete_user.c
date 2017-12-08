@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_client.c                                      :+:      :+:    :+:  */
+/*   delete_user.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amarquez <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -13,53 +13,76 @@
 # include <server.h>
 
 /*
-** Remove client from array and set
+** Given a reference to the head of a list
+** and a key, delete a node
 */
 
-void		ft_remove_client(t_env *env, int sockfd, int index)
+void			ft_delete_user(t_user **head, int key)
 {
 
-	/*
-	** client connection closed info
-	*/
-
-	printf("client with fd [%d] closed\n", sockfd);
+	t_user		*temp;
+	t_user		*prev;
 
 	/*
-	** close sockfd
+	** Store head node
 	*/
 
-	ft_close(sockfd);
+	temp = *head;
 
 	/*
-	** clear from our set
+	** Check if the head node itself holds the key to be deleted
 	*/
 
-	FD_CLR(sockfd, &env->allset);
-
-	/*
-	** open space in array
-	*/
-
-	env->client[index] = -1;
-
-	/*
-	** remove from user/channels list
-	*/
-
-	ft_remove_user(env, index);
-
-	/*
-	** temp
-	*/
-
-	t_user *user = env->users;
-	int num = 0;
-	while (user)
+	if (temp && temp->c_index == key)
 	{
-		num++;
-		user = user->next;
+
+		/*
+		** Change head
+		*/
+
+		*head = temp->next;
+
+		/*
+		** Doesnt need to be freed (ot dynamically allocated)
+		*/
+
+		return ;
+
 	}
-	printf("> [ %d ] user(s) online\n", num);
+
+	/*
+	** Search for the key to be deleted, keep track of the previous node
+	** as we need to change 'prev->next'
+	*/
+
+	while (temp && temp->c_index != key)
+	{
+
+		/*
+		** Update previous node
+		*/
+
+		prev = temp;
+
+		/*
+		** Increment
+		*/
+
+		temp = temp->next;
+
+	}
+
+	/*
+	** If the key was not present
+	*/
+
+	if (!temp)
+		return ;
+
+	/*
+	** Unlink the node
+	*/
+
+	prev->next = temp->next;
 
 }

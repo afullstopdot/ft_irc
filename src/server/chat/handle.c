@@ -34,12 +34,32 @@ char		*ft_handle_command(t_env *env, char *buf, int c_index)
 
 		if (ft_strequ(ft_strtrim(argv[0]), "/nick") && argv[1])
 			return (ft_set_username(env, argv, c_index));
+		
+		/*
+		** Get username
+		*/
+
 		else if (ft_strequ(ft_strtrim(argv[0]), "/whoami"))
 			return (ft_get_username(env, c_index));
+
+		/*
+		** Join a channel
+		*/
+
 		else if (ft_strequ(ft_strtrim(argv[0]), "/join") && argv[1])
 			return (ft_channel_join(env, argv, c_index));
+
+		/*
+		** List all users on channel
+		*/
+
 		else if (ft_strequ(ft_strtrim(argv[0]), "/who"))
 			return (ft_channel_list(env, c_index));
+
+		/*
+		** Invalid command
+		*/
+
 		else
 			return (ft_invalid_command());
 

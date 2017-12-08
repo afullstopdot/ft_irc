@@ -166,7 +166,7 @@ $(CHAT_OBJ): $(OBJDIR)/server/$(CHAT_DIR)/%.o : $(SERVER_ROOT)/$(CHAT_DIR)/%.c
 
 # client rules
 
-.PHONY: clean fclean re
+.PHONY: clean fclean oclean re
 clean:
 	@echo "\033[0;36mRemoving object files\033[0m"
 	@rm -f $(INTERPRETER_OBJ) $(ERROR_OBJ) $(MAIN_OBJ) $(WRAP_OBJ) $(CREATE_OBJ) $(SELECT_OBJ) $(CHAT_OBJ)
@@ -177,6 +177,12 @@ fclean: clean
 	@echo "\033[0;36mRemoving executable '$(BINDIR)/$(SERVER_EXE)"
 	@rm -f $(BINDIR)/$(SERVER_EXE)
 	@echo "\033[0;32mExecutable removed\033[0m"
+
+
+oclean:
+	@echo "\033[0;36mRemoving obj directory"
+	@rm -rf $(OBJDIR)
+	@echo "\033[0;32mDirectory removed\033[0m"
 
 
 re: fclean all

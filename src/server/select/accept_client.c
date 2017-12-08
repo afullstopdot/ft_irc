@@ -46,7 +46,7 @@ int						ft_accept_client(t_env *env)
 		** dump connection info
 		*/
 
-		printf("new client: %s, port %d\n", inet_ntoa(cliaddr.sin_addr), ntohs(cliaddr.sin_port));
+		printf("new client connected: %s, port %d\n", inet_ntoa(cliaddr.sin_addr), ntohs(cliaddr.sin_port));
 
 		/*
 		** Save new client descriptor
