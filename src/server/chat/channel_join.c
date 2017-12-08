@@ -13,6 +13,47 @@
 # include <server.h>
 
 /*
+** Check if we are connected on a channel
+*/
+
+static int 		ft_connected(t_user *users, int c_index)
+{
+
+	t_user		*temp;
+
+	temp = users;
+
+	/*
+	** run through all the users
+	*/
+
+	while (temp)
+	{
+
+		/*
+		** Check if we are on this channel
+		*/
+
+		if (temp->c_index == c_index)
+			return (TRUE);
+
+		/*
+		** Increment
+		*/
+
+		temp = temp->next;
+
+	}
+
+	/*
+	** not connected
+	*/
+
+	return (FALSE);
+
+}
+
+/*
 ** Join a channel
 */
 
@@ -86,40 +127,51 @@ char			*ft_channel_join(t_env *env, char **argv, int c_index)
 					}
 
 					/*
-					** copy the nickname over
+					** Check that we are'nt already connected on this channel
 					*/
 
-					ft_strcpy(user->nick, head->nick);
+					if (!ft_connected(channel->users, c_index))
+					{
 
-					/*
-					** assign the index in the client array
-					*/
+						/*
+						** copy the nickname over
+						*/
 
-					user->c_index = head->c_index;
+						ft_strcpy(user->nick, head->nick);
 
-					/*
-					** set next as the current head of channels user
-					*/
+						/*
+						** assign the index in the client array
+						*/
 
-					user->next = channel->users;
+						user->c_index = head->c_index;
 
-					/*
-					** make channels head point to new user
-					*/
+						/*
+						** set next as the current head of channels user
+						*/
 
-					channel->users = user;
+						user->next = channel->users;
 
-					/*
-					** Update current channel
-					*/
+						/*
+						** make channels head point to new user
+						*/
 
-					head->curr_channel = channel;
+						channel->users = user;
 
-					/*
-					** exit
-					*/
+						/*
+						** Update current channel
+						*/
 
-					return (ft_resp(C_GRN, "$[server]: successfully joined channel\n"));
+						head->curr_channel = channel;
+
+						/*
+						** exit
+						*/
+
+						return (ft_resp(C_GRN, "$[server]: successfully joined channel\n"));
+					
+					}
+					else
+						return (ft_resp(C_RED, "$[server]: you are already connect on this channel\n"));
 
 				}
 				else
