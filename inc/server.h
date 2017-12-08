@@ -290,4 +290,10 @@ void					ft_remove_user(t_env *env, int c_index);
 
 void					ft_delete_user(t_user **head, int key);
 
+/*
+** Leave a channel
+*/
+
+char					*ft_channel_leave(t_env *env, char **argv, int c_index);
+
 #endif

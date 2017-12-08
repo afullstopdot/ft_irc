@@ -50,6 +50,13 @@ char		*ft_handle_command(t_env *env, char *buf, int c_index)
 			return (ft_channel_join(env, argv, c_index));
 
 		/*
+		** Leave a channel
+		*/
+
+		else if (ft_strequ(ft_strtrim(argv[0]), "/leave") && argv[1])
+			return (ft_channel_leave(env, argv, c_index));
+
+		/*
 		** List all users on channel
 		*/
 
