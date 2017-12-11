@@ -120,7 +120,7 @@ int 		ft_find_user_by_name(t_user *users, char *name)
 			** Find user by name
 			*/
 
-			if (head->nick && ft_strequ(head->nick, name))
+			if (ft_strequ(head->nick, name))
 			{
 
 				/*
