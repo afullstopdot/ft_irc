@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   username.c                                         :+:      :+:    :+:   */
+/*   find_user.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amarquez <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -13,55 +13,52 @@
 # include <server.h>
 
 /*
-** set username
+** Find a user by key
 */
 
-char		*ft_set_username(t_env *env, char **argv, int c_index)
+t_user		*ft_find_user_by_key(t_env *env, int c_index)
 {
 
 	t_user	*head;
+	int		index;
 
 	/*
-	** Assign list
+	** index of our user (if we find him)
+	*/
+
+	index = -1;
+	/*
+	** Check that there are actually users to send this message to
 	*/
 
 	if ((head = env->users))
 	{
 
 		/*
-		** Iterate through list
+		** Loop through users
 		*/
 
 		while (head)
 		{
 
 			/*
-			** Check if correct user
+			** update index
+			*/
+
+			index++;
+
+			/*
+			** Check if it is indeed our user
 			*/
 
 			if (head->c_index == c_index)
 			{
 
 				/*
-				** Check if valid username (9 characters max)
+				** return user
 				*/
 
-				if (ft_strlen(argv[1]) <= NICKNAME_MAX)
-				{
-
-					/*
-					** copy into string
-					*/
-
-					ft_strcpy(head->nick, ft_strtrim(argv[1]));
-
-					/*
-					** Username set
-					*/
-
-					return (ft_usuccess("$[server]: username updated, check with /whoami\n"));
-				
-				}
+				return (env->users + (sizeof(t_user) * index));
 
 			}
 
@@ -76,57 +73,61 @@ char		*ft_set_username(t_env *env, char **argv, int c_index)
 	}
 
 	/*
-	** username not set
+	** Failed to find client
 	*/
 
-	return (ft_uerror("$[server]: unable to update your username\n"));
+	return (NULL);
 
 }
 
 /*
-** get username
+** Find a user key by name from a channel
 */
 
-char		*ft_get_username(t_env *env, int c_index)
+int 		ft_find_user_by_name(t_user *users, char *name)
 {
 
 	t_user	*head;
+	int 	index;
 
 	/*
-	** Assign list
+	** Index of our user
 	*/
 
-	if ((head = env->users))
+	index = -1;
+
+	/*
+	** List of users
+	*/
+
+	if ((head = users))
 	{
 
 		/*
-		** Iterate through list
+		** Loop through users
 		*/
 
 		while (head)
 		{
 
 			/*
-			** Check if correct user
+			** increment if we didnt find our user
 			*/
 
-			if (head->c_index == c_index)
+			index++;
+
+			/*
+			** Find user by name
+			*/
+
+			if (head->nick && ft_strequ(head->nick, name))
 			{
 
 				/*
-				** Check if valid username (9 characters max)
+				** return user
 				*/
 
-				if (ft_strlen(head->nick))
-				{
-
-					/*
-					** get username
-					*/
-
-					return (ft_resp(C_CYN, ft_strjoin(head->nick, "\n")));
-				
-				}
+				return (head->c_index);
 
 			}
 
@@ -140,10 +141,6 @@ char		*ft_get_username(t_env *env, int c_index)
 
 	}
 
-	/*
-	** username not set
-	*/
-
-	return (ft_uerror("$[server]: you have not set a username, set with /nick <name>\n"));
+	return (-1);
 
 }

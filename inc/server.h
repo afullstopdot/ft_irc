@@ -303,9 +303,15 @@ char					*ft_channel_leave(t_env *env, char **argv, int c_index);
 char					*ft_send_message(t_env *env, char **argv, int c_index);
 
 /*
-** get client by username
+** Find a user key by name from a channel
 */
 
-int 					ft_get_client(t_user *users, char *name);
+int 					ft_find_user_by_name(t_user *users, char *name);
+
+/*
+** Find a user by key
+*/
+
+t_user					*ft_find_user_by_key(t_env *env, int c_index);
 
 #endif
