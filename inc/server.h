@@ -64,6 +64,9 @@ typedef struct 			s_user
 
 	struct s_channels	*curr_channel;
 
+	char				rbuf[MAXLINE];
+	char				wbuf[MAXLINE];
+
 	/*
 	** Next
 	*/
@@ -142,6 +145,12 @@ typedef struct			s_env
 	*/
 
 	fd_set				rset;
+
+	/*
+	** write set
+	*/
+
+	fd_set				wset;
 
 	/*
 	** all set

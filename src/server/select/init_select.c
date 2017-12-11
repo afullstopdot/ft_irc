@@ -60,16 +60,4 @@ void		ft_init_select(t_env *env)
 
 	}
 
-	/*
-	** Initialize set (by setting all bits to off)
-	*/
-
-	FD_ZERO(&env->allset);
-
-	/*
-	** Turn on bit for listenfd
-	*/
-
-	FD_SET(env->listenfd, &env->allset);
-
 }

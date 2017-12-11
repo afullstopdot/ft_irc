@@ -22,8 +22,9 @@ void		ft_check_client(t_env *env, int *nready)
 	int		i;
 	int		sockfd;
 	size_t	n;
-	char	buf[MAXLINE];
+	// char	buf[MAXLINE];
 	char	*resp;
+	t_user *user;
 
 	/*
 	** counter
@@ -52,47 +53,56 @@ void		ft_check_client(t_env *env, int *nready)
 		if (FD_ISSET(sockfd, &env->rset))
 		{
 
-			/*
-			** clear buff
-			*/
-
-			ft_strclr(buf);
-
-			/*
-			** Read from client
-			*/
-
-			if ((n = ft_read(sockfd, buf, MAXLINE)) == 0)
+			if ((user = ft_find_user_by_key(env, i)))
 			{
 
 				/*
-				** remove client
+				** clear buff
 				*/
 
-				ft_remove_client(env, sockfd, i);
+				ft_strclr(user->rbuf);
+
+				/*
+				** Read from client
+				*/
+
+				if ((n = ft_read(sockfd, user->rbuf, MAXLINE)) == 0)
+				{
+
+					/*
+					** remove client
+					*/
+
+					ft_remove_client(env, sockfd, i);
+
+				}
+				else
+				{
+
+					/*
+					** Handle command
+					*/
+
+						resp = ft_handle_command(env, user->rbuf, i);
+						ft_strcpy(user->wbuf, resp);
+						ft_strdel(&resp);
+
+				}
 
 			}
-			else
+
+			if (--(*nready) <= 0)
+				break;
+		}
+
+		if (FD_ISSET(sockfd, &env->wset))
+		{
+
+			t_user *suser;
+
+			if ((suser = ft_find_user_by_key(env, i)))
 			{
-
-				/*
-				** Handle command
-				*/
-
-				resp = ft_handle_command(env, buf, i);
-
-				/*
-				** write to client (not completely okay cause i dont select on writes only reads)
-				*/
-
-				ft_writen(sockfd, resp, ft_strlen(resp));
-
-				/*
-				** clear
-				*/
-
-				ft_strdel(&resp);
-
+				ft_writen(env->client[suser->c_index], suser->wbuf, ft_strlen(suser->wbuf));
 			}
 
 			if (--(*nready) <= 0)

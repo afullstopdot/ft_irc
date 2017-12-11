@@ -72,12 +72,6 @@ void	ft_save_client(t_env *env, int connfd)
 		ft_fatal_error("server cannot handle any more clients");
 
 	/*
-	** Add new descriptor to set
-	*/
-
-	FD_SET(connfd, &env->allset);
-
-	/*
 	** Assign for select
 	*/
 

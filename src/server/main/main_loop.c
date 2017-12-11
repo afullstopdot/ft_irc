@@ -19,6 +19,8 @@
 void					ft_main_loop(t_env *env)
 {
 	int					nready;
+	int 				i;
+	int					sockfd;
 
 	/*
 	** Infinite loop
@@ -28,16 +30,52 @@ void					ft_main_loop(t_env *env)
 	{
 
 		/*
-		** structure assignment
+		** Clear sets
 		*/
 
-		env->rset = env->allset;
+		FD_ZERO(&env->rset);
+		FD_ZERO(&env->wset);
+
+		/*
+		** Set listenfd (accept new clients) on readset only
+		*/
+
+		FD_SET(env->listenfd, &env->rset);
+
+		/*
+		** Set the fds we want to read/write
+		*/
+
+		for (i = 0; i <= env->maxi; i++)
+		{
+	
+			/*
+			** Check if a valid fd
+			*/
+	
+			if ((sockfd = env->client[i]) < 0)
+				continue ;
+
+			/*
+			** fd tp write to except listenfd
+			*/
+
+			if (sockfd != env->listenfd)
+				FD_SET(sockfd, &env->wset);
+			
+			/*
+			** fd to read from
+			*/
+
+			FD_SET(sockfd, &env->rset);
+	
+		}
 
 		/*
 		** read select
 		*/
 
-		nready = ft_select(env->maxfd + 1, &env->rset, NULL, NULL, NULL);
+		nready = ft_select(env->maxfd + 1, &env->rset, &env->wset, NULL, NULL);
 
 		/*
 		** Check if there are any new client connections
