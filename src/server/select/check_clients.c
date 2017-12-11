@@ -22,7 +22,6 @@ void		ft_check_client(t_env *env, int *nready)
 	int		i;
 	int		sockfd;
 	size_t	n;
-	// char	buf[MAXLINE];
 	char	*resp;
 	t_user *user;
 
@@ -110,7 +109,8 @@ void		ft_check_client(t_env *env, int *nready)
 
 			if ((suser = ft_find_user_by_key(env, i)))
 			{
-					
+
+				// temp rule to check if anything sent (until rotary buffers)
 				if (ft_strlen(suser->wbuf))
 				{
 					/*
