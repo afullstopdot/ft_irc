@@ -53,6 +53,10 @@ void		ft_check_client(t_env *env, int *nready)
 		if (FD_ISSET(sockfd, &env->rset))
 		{
 
+			/*
+			** Find the user
+			*/
+
 			if ((user = ft_find_user_by_key(env, i)))
 			{
 
@@ -95,14 +99,33 @@ void		ft_check_client(t_env *env, int *nready)
 				break;
 		}
 
+		/*
+		** Check if we can write to fd
+		*/
+
 		if (FD_ISSET(sockfd, &env->wset))
 		{
-
+			//temp
 			t_user *suser;
 
 			if ((suser = ft_find_user_by_key(env, i)))
 			{
-				ft_writen(env->client[suser->c_index], suser->wbuf, ft_strlen(suser->wbuf));
+					
+				if (ft_strlen(suser->wbuf))
+				{
+					/*
+					** write to the fd, if writen works (all bytes written) then we dont have to write again
+					*/
+
+					ft_writen(env->client[suser->c_index], suser->wbuf, ft_strlen(suser->wbuf));
+
+					/*
+					** Update so we dont write again
+					*/
+
+					ft_strclr(suser->wbuf);
+				}
+
 			}
 
 			if (--(*nready) <= 0)

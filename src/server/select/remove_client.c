@@ -32,12 +32,6 @@ void		ft_remove_client(t_env *env, int sockfd, int index)
 	ft_close(sockfd);
 
 	/*
-	** clear from our set
-	*/
-
-	FD_CLR(sockfd, &env->allset);
-
-	/*
 	** open space in array
 	*/
 
