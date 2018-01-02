@@ -12,6 +12,8 @@
 
 # include <server.h>
 
+int g_count = 0;
+
 /*
 ** Main loop for handling clients simulantaneously
 */

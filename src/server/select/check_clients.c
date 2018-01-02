@@ -12,6 +12,8 @@
 
 # include <server.h>
 
+// error update the problem is not with my select, its worth my find_by_key logic
+
 /*
 ** Check all clients for data
 */
@@ -104,29 +106,9 @@ void		ft_check_client(t_env *env, int *nready)
 
 		if (FD_ISSET(sockfd, &env->wset))
 		{
-			//temp
-			t_user *suser;
 
-			if ((suser = ft_find_user_by_key(env, i)))
-			{
-
-				// temp rule to check if anything sent (until rotary buffers)
-				if (ft_strlen(suser->wbuf))
-				{
-					/*
-					** write to the fd, if writen works (all bytes written) then we dont have to write again
-					*/
-
-					ft_writen(env->client[suser->c_index], suser->wbuf, ft_strlen(suser->wbuf));
-
-					/*
-					** Update so we dont write again
-					*/
-
-					ft_strclr(suser->wbuf);
-				}
-
-			}
+			// ft_writen(sockfd, "Hello Client\n\0", 13);
+			printf("attempting to write to %d\n", sockfd);
 
 			if (--(*nready) <= 0)
 				break;

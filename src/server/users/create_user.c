@@ -33,6 +33,8 @@ void		ft_create_user(t_env *env, int c_index)
 		*/
 
 		ft_memset(user->nick, 0, NICKNAME_MAX);
+		ft_memset(user->rbuf, 0, MAXLINE);
+		ft_memset(user->wbuf, 0, MAXLINE);
 
 		/*
 		** Set index of user in clients array
