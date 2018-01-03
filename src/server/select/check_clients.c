@@ -27,6 +27,8 @@ void		ft_check_client(t_env *env, int *nready)
 	char	*resp;
 	t_user *user;
 
+	user = env->users;
+
 	/*
 	** counter
 	*/
@@ -54,45 +56,32 @@ void		ft_check_client(t_env *env, int *nready)
 		if (FD_ISSET(sockfd, &env->rset))
 		{
 
+			ft_strclr(user[i].rbuf);
+
 			/*
-			** Find the user
+			** Read from client
 			*/
 
-			if ((user = ft_find_user_by_key(env, i)))
+			if ((n = ft_read(sockfd, user[i].rbuf, MAXLINE)) == 0)
 			{
 
 				/*
-				** clear buff
+				** remove client
 				*/
 
-				ft_strclr(user->rbuf);
+				ft_remove_client(env, sockfd, i);
+
+			}
+			else
+			{
 
 				/*
-				** Read from client
+				** Handle command
 				*/
 
-				if ((n = ft_read(sockfd, user->rbuf, MAXLINE)) == 0)
-				{
-
-					/*
-					** remove client
-					*/
-
-					ft_remove_client(env, sockfd, i);
-
-				}
-				else
-				{
-
-					/*
-					** Handle command
-					*/
-
-						resp = ft_handle_command(env, user->rbuf, i);
-						ft_strcpy(user->wbuf, resp);
-						ft_strdel(&resp);
-
-				}
+				resp = ft_handle_command(env, user[i].rbuf, i);
+				ft_strcpy(user[i].wbuf, resp);
+				ft_strdel(&resp);
 
 			}
 
@@ -107,8 +96,11 @@ void		ft_check_client(t_env *env, int *nready)
 		if (FD_ISSET(sockfd, &env->wset))
 		{
 
-			// ft_writen(sockfd, "Hello Client\n\0", 13);
-			printf("attempting to write to %d\n", sockfd);
+			if (ft_strlen(user[i].wbuf))
+			{
+				ft_writen(sockfd, user[i].wbuf, ft_strlen(user[i].wbuf));
+				ft_strclr(user[i].wbuf);
+			}
 
 			if (--(*nready) <= 0)
 				break;
