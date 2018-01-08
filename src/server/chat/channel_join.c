@@ -57,7 +57,7 @@ static int 		ft_connected(t_user *users, int c_index)
 ** Join a channel
 */
 
-char			*ft_channel_join(t_env *env, char **argv, int c_index)
+char			*ft_channel_join(t_env **env, char **argv, int c_index)
 {
 
 	t_user		*head;
@@ -74,7 +74,7 @@ char			*ft_channel_join(t_env *env, char **argv, int c_index)
 	** assign from list of users (we want to find our {} and point to it)
 	*/
 
-	if ((head = env->users))
+	if ((head = (*env)->users))
 	{
 
 		/*
@@ -102,7 +102,7 @@ char			*ft_channel_join(t_env *env, char **argv, int c_index)
 					** Find the channel we want to join by name
 					*/
 
-					channel = env->channels;
+					channel = (*env)->channels;
 
 					/*
 					** loop through list

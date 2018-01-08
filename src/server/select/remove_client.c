@@ -16,14 +16,14 @@
 ** Remove client from array and set
 */
 
-void		ft_remove_client(t_env *env, int sockfd, int index)
+void		ft_remove_client(t_env **env, int sockfd, int index)
 {
 
 	/*
 	** client connection closed info
 	*/
 
-	printf("client with fd [%d] closed\n", sockfd);
+	printf("connection to fd [%d] closed by client\n", sockfd);
 
 	/*
 	** close sockfd
@@ -35,32 +35,19 @@ void		ft_remove_client(t_env *env, int sockfd, int index)
 	** Remove fd from both select sets
 	*/
 
-	FD_CLR(sockfd, &env->wset);
-	FD_CLR(sockfd, &env->rset);
+	FD_CLR(sockfd, &(*env)->wset);
+	FD_CLR(sockfd, &(*env)->rset);
 
 	/*
 	** open space in array
 	*/
 
-	env->client[index] = -1;
+	(*env)->client[index] = -1;
 
 	/*
 	** remove from user/channels list
 	*/
 
 	ft_remove_user(env, index);
-
-	/*
-	** temp
-	*/
-
-	t_user *user = env->users;
-	int num = 0;
-	while (user)
-	{
-		num++;
-		user = user->next;
-	}
-	printf("> [ %d ] user(s) online\n", num);
 
 }

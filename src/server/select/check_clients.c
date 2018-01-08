@@ -12,10 +12,9 @@
 
 # include <server.h>
 
-// error update the problem is not with my select, its worth my find_by_key logic
-
 /*
 ** Check all clients for data
+** Final version should use rotary buffers and not char pointers
 */
 
 void		ft_check_client(t_env *env, int *nready)
@@ -69,7 +68,7 @@ void		ft_check_client(t_env *env, int *nready)
 				** remove client
 				*/
 
-				ft_remove_client(env, sockfd, i);
+				ft_remove_client(&env, sockfd, i);
 
 			}
 			else
@@ -79,7 +78,7 @@ void		ft_check_client(t_env *env, int *nready)
 				** Handle command
 				*/
 
-				resp = ft_handle_command(env, user[i].rbuf, i);
+				resp = ft_handle_command(&env, user[i].rbuf, i);
 				ft_strcpy(user[i].wbuf, resp);
 				ft_strdel(&resp);
 
@@ -96,6 +95,7 @@ void		ft_check_client(t_env *env, int *nready)
 		if (FD_ISSET(sockfd, &env->wset))
 		{
 
+			// temp
 			if (ft_strlen(user[i].wbuf))
 			{
 				ft_writen(sockfd, user[i].wbuf, ft_strlen(user[i].wbuf));

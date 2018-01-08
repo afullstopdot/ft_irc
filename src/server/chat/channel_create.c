@@ -16,7 +16,7 @@
 ** Create a channel if it does not exists
 */
 
-void			ft_channel_create(t_env *env, char *name)
+void			ft_channel_create(t_env **env, char *name)
 {
 
 	t_channels	*head;
@@ -26,7 +26,7 @@ void			ft_channel_create(t_env *env, char *name)
 	** assign current list of channels
 	*/
 
-	head = env->channels;
+	head = (*env)->channels;
 
 	/*
 	** Check if a channel with this name exists
@@ -64,13 +64,13 @@ void			ft_channel_create(t_env *env, char *name)
 		** add to front of channels
 		*/
 
-		new->next = env->channels;
+		new->next = (*env)->channels;
 
 		/*
 		** point to start
 		*/
 
-		env->channels = new;
+		(*env)->channels = new;
 
 	}
 	else

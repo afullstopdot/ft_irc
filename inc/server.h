@@ -153,12 +153,6 @@ typedef struct			s_env
 	fd_set				wset;
 
 	/*
-	** all set
-	*/
-
-	fd_set				allset;
-
-	/*
 	** list of users of type t_user {}
 	*/
 
@@ -218,7 +212,7 @@ void					ft_check_client(t_env *env, int *nready);
 ** Remove client from array and set
 */
 
-void					ft_remove_client(t_env *env, int sockfd, int index);
+void					ft_remove_client(t_env **env, int sockfd, int index);
 
 /*
 ** Create a new user and add to list
@@ -230,19 +224,19 @@ void					ft_create_user(t_env *env, int c_index);
 ** Handle commands
 */
 
-char					*ft_handle_command(t_env *env, char *buf, int c_index);
+char					*ft_handle_command(t_env **env, char *buf, int c_index);
 
 /*
 ** set username
 */
 
-char					*ft_set_username(t_env *env, char **argv, int c_index);
+char					*ft_set_username(t_env **env, char **argv, int c_index);
 
 /*
 ** get username
 */
 
-char					*ft_get_username(t_env *env, int c_index);
+char					*ft_get_username(t_env **env, int c_index);
 
 /*
 ** invalid command
@@ -272,25 +266,25 @@ char					*ft_resp(char *start, char *msg);
 ** Create a channel if it does not exists
 */
 
-void					ft_channel_create(t_env *env, char *name);
+void					ft_channel_create(t_env **env, char *name);
 
 /*
 ** join a channel
 */
 
-char					*ft_channel_join(t_env *env, char **argv, int c_index);
+char					*ft_channel_join(t_env **env, char **argv, int c_index);
 
 /*
 ** list all users on a channel
 */
 
-char 					*ft_channel_list(t_env *env, int c_index);
+char 					*ft_channel_list(t_env **env, int c_index);
 
 /*
 ** remove a client from linked list, before closing connection
 */
 
-void					ft_remove_user(t_env *env, int c_index);
+void					ft_remove_user(t_env **env, int c_index);
 
 /*
 ** Given a reference to the head of a list
@@ -303,13 +297,13 @@ void					ft_delete_user(t_user **head, int key);
 ** Leave a channel
 */
 
-char					*ft_channel_leave(t_env *env, char **argv, int c_index);
+char					*ft_channel_leave(t_env **env, char **argv, int c_index);
 
 /*
 ** Send message
 */
 
-char					*ft_send_message(t_env *env, char **argv, int c_index);
+char					*ft_send_message(t_env **env, char **argv, int c_index);
 
 /*
 ** Find a user key by name from a channel

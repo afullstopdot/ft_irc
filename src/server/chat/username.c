@@ -16,7 +16,7 @@
 ** set username
 */
 
-char		*ft_set_username(t_env *env, char **argv, int c_index)
+char		*ft_set_username(t_env **env, char **argv, int c_index)
 {
 
 	t_user	*head;
@@ -25,7 +25,7 @@ char		*ft_set_username(t_env *env, char **argv, int c_index)
 	** Assign list
 	*/
 
-	if ((head = env->users))
+	if ((head = (*env)->users))
 	{
 
 		/*
@@ -87,7 +87,7 @@ char		*ft_set_username(t_env *env, char **argv, int c_index)
 ** get username
 */
 
-char		*ft_get_username(t_env *env, int c_index)
+char		*ft_get_username(t_env **env, int c_index)
 {
 
 	t_user	*head;
@@ -96,7 +96,7 @@ char		*ft_get_username(t_env *env, int c_index)
 	** Assign list
 	*/
 
-	if ((head = env->users))
+	if ((head = (*env)->users))
 	{
 
 		/*

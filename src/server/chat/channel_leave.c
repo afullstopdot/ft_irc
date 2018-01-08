@@ -16,7 +16,7 @@
 ** Leave a channel
 */
 
-char			*ft_channel_leave(t_env *env, char **argv, int c_index)
+char			*ft_channel_leave(t_env **env, char **argv, int c_index)
 {
 
 	t_channels	*channels;
@@ -25,7 +25,7 @@ char			*ft_channel_leave(t_env *env, char **argv, int c_index)
 	** Find all the channels the user is a part of, and remove him from them
 	*/
 
-	if ((channels = env->channels))
+	if ((channels = (*env)->channels))
 	{
 
 		/*

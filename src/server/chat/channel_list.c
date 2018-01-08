@@ -126,7 +126,7 @@ static char 	*ft_clean_resp(char *src)
 ** List users on channel
 */
 
-char 			*ft_channel_list(t_env *env, int c_index)
+char 			*ft_channel_list(t_env **env, int c_index)
 {
 
 	t_user		*head;
@@ -139,7 +139,7 @@ char 			*ft_channel_list(t_env *env, int c_index)
 	** We want to find our user, only if there are actually users though
 	*/
 
-	if ((head = env->users))
+	if ((head = (*env)->users))
 	{
 
 		/*
