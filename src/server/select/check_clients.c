@@ -95,12 +95,8 @@ void		ft_check_client(t_env *env, int *nready)
 		if (FD_ISSET(sockfd, &env->wset))
 		{
 
-			// temp
-			if (ft_strlen(user[i].wbuf))
-			{
-				ft_writen(sockfd, user[i].wbuf, ft_strlen(user[i].wbuf));
-				ft_strclr(user[i].wbuf);
-			}
+			ft_writen(sockfd, user[i].wbuf, ft_strlen(user[i].wbuf));
+			ft_strclr(user[i].wbuf);
 
 			if (--(*nready) <= 0)
 				break;

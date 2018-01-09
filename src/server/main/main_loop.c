@@ -59,10 +59,11 @@ void					ft_main_loop(t_env *env)
 				continue ;
 
 			/*
-			** fd tp write to except listenfd
+			** For writing, only the file descriptors on which one has 
+			** something to write are put in the fd_set in writing (not listenfd)
 			*/
 
-			if (sockfd != env->listenfd)
+			if ((sockfd != env->listenfd) && (ft_strlen(env->users[i].wbuf)))
 				FD_SET(sockfd, &env->wset);
 			
 			/*
