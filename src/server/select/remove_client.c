@@ -18,12 +18,46 @@
 
 void		ft_remove_client(t_env **env, int sockfd, int index)
 {
+	t_user	*head;
 
 	/*
-	** client connection closed info
+	** Show which user has disconnected from the chat
 	*/
 
-	printf("connection to fd [%d] closed by client\n", sockfd);
+	if ((head = (*env)->users))
+	{
+
+		/*
+		** Loop through head
+		*/
+
+		while (head)
+		{
+
+			/*
+			** Find user by client index
+			*/
+
+			if (head->c_index == index)
+			{
+
+				/*
+				** dump error message
+				*/
+
+				printf("%s has disconnected from the chat\n", ft_strlen(head->nick) ? head->nick : "unknown user");
+
+			}
+
+			/*
+			** increment pointer
+			*/
+
+			head = head->next;
+
+		}
+
+	}
 
 	/*
 	** close sockfd
