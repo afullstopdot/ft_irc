@@ -308,13 +308,12 @@ char					*ft_send_message(t_env **env, char **argv, int c_index);
 /*
 ** Find a user key by name from a channel
 */
-
-int 					ft_find_user_by_name(t_user *users, char *name);
+t_user					*ft_find_user_by_name(t_env **env, char *name);
 
 /*
 ** Find a user by key
 */
 
-t_user					*ft_find_user_by_key(t_env *env, int c_index);
+t_user					*ft_find_user_by_key(t_env **env, int c_index);
 
 #endif
