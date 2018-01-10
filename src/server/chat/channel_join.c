@@ -92,6 +92,13 @@ char			*ft_channel_join(t_env **env, char **argv, int c_index)
 			{
 
 				/*
+				** Nickname needs to be set
+				*/
+
+				if (!ft_strlen(head->nick))
+					return (ft_resp(C_RED, "$[server]: username must be set before joining a channel\n"));
+
+				/*
 				** create a new t_user for channels though NB-- ADD A CHECK TO SEE IF THE USER IS ALREADY APART OF THE CHANNEL
 				*/
 

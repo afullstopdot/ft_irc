@@ -87,6 +87,13 @@ char		*ft_send_message(t_env **env, char **argv, int c_index)
 	{
 
 		/*
+		** Nickname needs to be set
+		*/
+
+		if (!ft_strlen(sender->nick))
+			return (ft_resp(C_RED, "$[server]: username must be set before joining a channel\n"));
+
+		/*
 		** Find the client to send the message to
 		*/
 

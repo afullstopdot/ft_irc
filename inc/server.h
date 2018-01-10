@@ -40,6 +40,41 @@
 #define	BUFFSIZE 8192
 
 /*
+** Circular buffer
+*/
+
+typedef struct 			ringBufS
+{
+
+	/*
+	** This is the managed buffer. The size of this buffer BUFFSIZE
+	*/
+
+	unsigned char 		buf[BUFFSIZE];
+
+	/*
+	** This is the head index. 
+	** The incoming bytes get written to the managed buffer using this index
+	*/
+
+	int 				head;
+
+	/*
+	** This index is used to retrieve the oldest data in the queue
+	*/
+
+	int 				tail;
+
+	/*
+	** This field is used to keep track of the total number 
+	** of elements currently in the queue
+	*/
+
+	int 				count;
+
+}						ringBufS;
+
+/*
 ** User information
 */
 
@@ -315,5 +350,48 @@ t_user					*ft_find_user_by_name(t_env **env, char *name);
 */
 
 t_user					*ft_find_user_by_key(t_env **env, int c_index);
+
+/*
+** Initialize the circular buffer queue
+*/
+
+void  					ringBufS_init(ringBufS *_this);
+
+/*
+** Determine whether or not the circular buffer queue is empty
+*/
+
+int 					ringBufS_empty(ringBufS *_this);
+
+/*
+** Determine whether or not the circular buffer queue is full
+*/
+
+int   					ringBufS_full(ringBufS *_this);
+
+/*
+** Get a byte from the queue (TAIL)
+*/
+
+int   					ringBufS_get(ringBufS *_this);
+
+/*
+** Put a byte to the circular buffer queue (HEAD)
+*/
+
+void  					ringBufS_put(ringBufS *_this, const unsigned char c);
+
+/*
+** Flush the queue and optionally clear the buffer bytes to 0
+*/
+
+void  					ringBufS_flush(ringBufS *_this, const int clearBuffer);
+
+/*
+** Modulo for circular buffer
+*/
+
+unsigned int 			modulo_inc(const unsigned int value, const unsigned int modulus);
+unsigned int 			modulo_dec(const unsigned int value, const unsigned int modulus);
 
 #endif
