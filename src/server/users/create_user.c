@@ -16,7 +16,7 @@
 ** create a new user by using client index
 */
 
-void		ft_create_user(t_env *env, int c_index)
+void		ft_create_user(t_env **env, int c_index)
 {
 
 	t_user	*user;
@@ -33,9 +33,20 @@ void		ft_create_user(t_env *env, int c_index)
 		*/
 
 		ft_memset(user->nick, 0, NICKNAME_MAX);
-		ft_memset(user->rbuf, 0, MAXLINE);
-		ft_memset(user->wbuf, 0, MAXLINE);
 
+		/*
+		** Initialize read and write circular buffers
+		*/
+
+		if ((user->rbuf = (ringBufS *)malloc(sizeof(ringBufS))) &&
+			(user->wbuf = (ringBufS *)malloc(sizeof(ringBufS))))
+		{
+			ringBufS_init(user->rbuf);
+			ringBufS_init(user->wbuf);
+		}
+		else
+			ft_fatal_error("Unable to allocate memory for circular buffers");
+		
 		/*
 		** Set index of user in clients array
 		*/
@@ -52,13 +63,13 @@ void		ft_create_user(t_env *env, int c_index)
 		** Push to front of list
 		*/
 
-		user->next = env->users;
+		user->next = (*env)->users;
 
 		/*
 		** env point to head
 		*/
 
-		env->users = user;
+		(*env)->users = user;
 
 	}
 	else

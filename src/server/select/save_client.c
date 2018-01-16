@@ -16,7 +16,7 @@
 ** Save new client
 */
 
-void	ft_save_client(t_env *env, int connfd)
+void	ft_save_client(t_env **env, int connfd)
 {
 
 	int	i;
@@ -38,14 +38,14 @@ void	ft_save_client(t_env *env, int connfd)
 		** If position is available (will have a value of -1 if available)
 		*/
 
-		if (env->client[i] < 0)
+		if ((*env)->client[i] < 0)
 		{
 
 			/*
 			** Save file descriptor on first available position
 			*/
 
-			env->client[i] = connfd;
+			(*env)->client[i] = connfd;
 
 			/*
 			** Done saving, break
@@ -75,14 +75,14 @@ void	ft_save_client(t_env *env, int connfd)
 	** Assign for select
 	*/
 
-	if (connfd > env->maxfd)
-		env->maxfd = connfd;
+	if (connfd > (*env)->maxfd)
+		(*env)->maxfd = connfd;
 
 	/*
 	** Max index in client aaray
 	*/
 
-	if (i > env->maxi)
-		env->maxi = i;
+	if (i > (*env)->maxi)
+		(*env)->maxi = i;
 
 }

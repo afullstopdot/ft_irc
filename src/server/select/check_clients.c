@@ -17,70 +17,123 @@
 ** Final version should use rotary buffers and not char pointers
 */
 
-void		ft_check_client(t_env *env, int *nready)
+void		ft_check_client(t_env **env, int *nready)
 {
 
 	int		i;
+	int		count;
 	int		sockfd;
 	size_t	n;
 	char	*resp;
 	t_user *user;
 
-	user = env->users;
+	user = (*env)->users;
 
 	/*
 	** counter
 	*/
 
 	i = 0;
+	count = 0;
 
 	/*
 	** Check for fd in sets that can be read from
 	*/
 
-	for (i = 0; i <= env->maxi; i++)
+	for (i = 0; i <= (*env)->maxi; i++)
 	{
 
 		/*
 		** Check if a valid fd
 		*/
 
-		if ((sockfd = env->client[i]) < 0)
+		if ((sockfd = (*env)->client[i]) < 0)
 			continue ;
 
 		/*
 		** Check if the FD is in the set returned by select
 		*/
 
-		if (FD_ISSET(sockfd, &env->rset))
+		if (FD_ISSET(sockfd, &(*env)->rset))
 		{
-
-			ft_strclr(user[i].rbuf);
-
+ft_putendl(":read");
 			/*
 			** Read from client
 			*/
 
-			if ((n = ft_read(sockfd, user[i].rbuf, MAXLINE)) == 0)
+			if ((n = ft_read(sockfd, (*env)->users[i].rbuf, MAXLINE)) == 0)
 			{
 
 				/*
 				** remove client
 				*/
 
-				ft_remove_client(&env, sockfd, i);
+				ft_remove_client(&(*env), sockfd, i);
 
 			}
 			else
 			{
-
+ft_putendl(":handle");
 				/*
 				** Handle command
 				*/
 
-				resp = ft_handle_command(&env, user[i].rbuf, i);
-				ft_strcpy(user[i].wbuf, resp);
-				ft_strdel(&resp);
+				if (ft_strchr((const char *)user[i].rbuf->buf, '\n'))
+				{
+
+					/*
+					** Handle the command in the buf
+					*/
+
+					resp = ft_handle_command(&(*env), (char *)user[i].rbuf->buf, i);
+
+					/*
+					** write into the wbuf
+					*/
+
+					while (resp[count])
+					{
+						/*
+						** Only add to the queue if there is no space (this circular buffer does not overlap)
+						** If there is no more space, exit the loop
+						*/
+
+						if (!ringBufS_full(user[i].wbuf))
+						{
+
+							/*
+							** Add character to the queue
+							*/
+
+							ringBufS_put(user[i].wbuf, ((const unsigned char *) resp)[count]);
+
+						}
+						else
+							break ;
+
+						/*
+						** Increment pointer
+						*/
+
+						count++;
+
+					}
+
+					count = 0;
+
+					/*
+					** Free up some memory
+					*/
+
+					ft_strdel(&resp);
+
+					/*
+					** Clear our rbuf now
+					*/
+
+					ringBufS_flush(user[i].rbuf, TRUE);
+
+				}
 
 			}
 
@@ -92,11 +145,16 @@ void		ft_check_client(t_env *env, int *nready)
 		** Check if we can write to fd
 		*/
 
-		if (FD_ISSET(sockfd, &env->wset))
+		if (FD_ISSET(sockfd, &(*env)->wset))
 		{
 
-			ft_writen(sockfd, user[i].wbuf, ft_strlen(user[i].wbuf));
-			ft_strclr(user[i].wbuf);
+			ft_writen(sockfd, (char *)user[i].wbuf->buf, user[i].wbuf->count);
+
+			/*
+			** Clear our rbuf now
+			*/
+
+			ringBufS_flush(user[i].wbuf, TRUE);
 
 			if (--(*nready) <= 0)
 				break;

@@ -111,8 +111,8 @@ char		*ft_send_message(t_env **env, char **argv, int c_index)
 				** copy into env instead of {} returned so wbuf is updated in memory
 				*/
 
-				ft_strclr((*env)->users[reciever->c_index].wbuf);
-				ft_strcpy((*env)->users[reciever->c_index].wbuf, msg);
+				// ft_strclr((*env)->users[reciever->c_index].wbuf);
+				// ft_strcpy((*env)->users[reciever->c_index].wbuf, msg);
 
 				/*
 				** Indicate to the user that the message was sent

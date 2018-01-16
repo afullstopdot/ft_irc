@@ -123,7 +123,7 @@ $(OBJDIR):
 $(BINDIR)/$(SERVER_EXE): $(INTERPRETER_OBJ) $(ERROR_OBJ) $(WRAP_OBJ) $(CREATE_OBJ) $(SELECT_OBJ) $(CHAT_OBJ) $(CB_OBJ) $(MAIN_OBJ)
 	@make -C libft
 	@echo "\033[0;31m[server]: \033[0mLinking object files!"
-	@$(LINKER) $(INTERPRETER_OBJ) $(ERROR_OBJ) $(WRAP_OBJ) $(CREATE_OBJ) $(SELECT_OBJ) $(CHAT_OBJ) $(CB_OBJ) $(MAIN_OBJ) $(FLAGS) -o $@ $(LIBFT) -I $(INCDIR) $(LIBFT_H)
+	@$(LINKER) $(INTERPRETER_OBJ) $(ERROR_OBJ) $(WRAP_OBJ) $(CREATE_OBJ) $(SELECT_OBJ) $(CHAT_OBJ) $(CB_OBJ) $(MAIN_OBJ) $(FLAGS) -o $@ $(LIBFT) -I $(INCDIR) $(LIBFT_H) -fPIC
 	@chmod +x $@
 	@echo "\033[0;31m[server]: \033[0mLinking complete!"
 

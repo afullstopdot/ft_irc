@@ -99,8 +99,12 @@ typedef struct 			s_user
 
 	struct s_channels	*curr_channel;
 
-	char				rbuf[MAXLINE];
-	char				wbuf[MAXLINE];
+	/*
+	** Circular buffers
+	*/
+
+	struct ringBufS 	*rbuf;
+	struct ringBufS 	*wbuf;
 
 	/*
 	** Next
@@ -211,37 +215,37 @@ void					ft_init_server_port(int argc, char **argv, t_env *env);
 ** Create a server
 */
 
-void					ft_create_server(int argc, char **argv, t_env *env);
+void					ft_create_server(int argc, char **argv, t_env **env);
 
 /*
 ** Initialize values for select
 */
 
-void					ft_init_select(t_env *env);
+void					ft_init_select(t_env **env);
 
 /*
 ** Main loop for handling clients simulantaneously
 */
 
-void					ft_main_loop(t_env *env);
+void					ft_main_loop(t_env **env);
 
 /*
 ** Save new client
 */
 
-void					ft_save_client(t_env *env, int connfd);
+void					ft_save_client(t_env **env, int connfd);
 
 /*
 ** Accept a new client (if there are any)
 */
 
-int						ft_accept_client(t_env *env);
+int						ft_accept_client(t_env **env);
 
 /*
 ** Check all clients for data
 */
 
-void					ft_check_client(t_env *env, int *nready);
+void					ft_check_client(t_env **env, int *nready);
 
 /*
 ** Remove client from array and set
@@ -253,7 +257,7 @@ void					ft_remove_client(t_env **env, int sockfd, int index);
 ** Create a new user and add to list
 */
 
-void					ft_create_user(t_env *env, int c_index);
+void					ft_create_user(t_env **env, int c_index);
 
 /*
 ** Handle commands
@@ -393,5 +397,6 @@ void  					ringBufS_flush(ringBufS *_this, const int clearBuffer);
 
 unsigned int 			modulo_inc(const unsigned int value, const unsigned int modulus);
 unsigned int 			modulo_dec(const unsigned int value, const unsigned int modulus);
+ssize_t					ft_read(int fd, ringBufS *_this, size_t nbytes);
 
 #endif

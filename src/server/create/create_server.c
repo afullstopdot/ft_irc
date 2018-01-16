@@ -16,7 +16,7 @@
 ** Using the port number create a server (by creatinf a listening socket)
 */
 
-void					ft_create_server(int argc, char **argv, t_env *env)
+void					ft_create_server(int argc, char **argv, t_env **env)
 {
 
 	struct sockaddr_in	servaddr;
@@ -25,13 +25,13 @@ void					ft_create_server(int argc, char **argv, t_env *env)
 	** Initialize server port
 	*/
 
-	ft_init_server_port(argc, argv, env);
+	ft_init_server_port(argc, argv, (*env));
 
 	/*
 	** Create a socket
 	*/
 
-	env->listenfd = ft_socket(AF_INET, SOCK_STREAM, 0);
+	(*env)->listenfd = ft_socket(AF_INET, SOCK_STREAM, 0);
 
 	/*
 	** Clear servaddr bits
@@ -55,25 +55,25 @@ void					ft_create_server(int argc, char **argv, t_env *env)
 	** Configure server port
 	*/
 
-	servaddr.sin_port = htons(env->port);
+	servaddr.sin_port = htons((*env)->port);
 
 	/*
 	** Bind server addr configure to socket
 	*/
 
-	ft_bind(env->listenfd, (SA *) &servaddr, sizeof(servaddr));
+	ft_bind((*env)->listenfd, (SA *) &servaddr, sizeof(servaddr));
 
 	/*
 	** Listen for connections
 	*/
 
-	ft_listen(env->listenfd, LISTENQ);
+	ft_listen((*env)->listenfd, LISTENQ);
 
 	/*
 	** Default
 	*/
 
-	env->users = NULL;
-	env->channels = NULL;
+	(*env)->users = NULL;
+	(*env)->channels = NULL;
 
 }

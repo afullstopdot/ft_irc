@@ -74,7 +74,6 @@ void					ft_listen(int fd, int backlog);
 int						ft_accept(int fd, struct sockaddr *sa, socklen_t *salenptr);
 int						ft_socket(int domain, int type, int protocol);
 int						ft_select(int nfds, fd_set *readfds, fd_set *writefds, fd_set *exceptfds, struct timeval *timeout);
-ssize_t					ft_read(int fd, void *ptr, size_t nbytes);
 void					ft_writen(int fd, void *ptr, size_t nbytes);
 void					ft_close(int fd);
 

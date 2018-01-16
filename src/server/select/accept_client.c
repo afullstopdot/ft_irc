@@ -16,7 +16,7 @@
 ** Accept a new client (if there are any)
 */
 
-int						ft_accept_client(t_env *env)
+int						ft_accept_client(t_env **env)
 {
 
 	struct sockaddr_in	cliaddr;
@@ -27,7 +27,7 @@ int						ft_accept_client(t_env *env)
 	** Check if there are any new client connections
 	*/
 
-	if (FD_ISSET(env->listenfd, &env->rset))
+	if (FD_ISSET((*env)->listenfd, &(*env)->rset))
 	{
 
 		/*
@@ -40,7 +40,7 @@ int						ft_accept_client(t_env *env)
 		** Accept client, kernel fills cliaddr {}
 		*/
 
-		connfd = ft_accept(env->listenfd, (SA *) &cliaddr, &clilen);
+		connfd = ft_accept((*env)->listenfd, (SA *) &cliaddr, &clilen);
 
 		/*
 		** dump connection info
