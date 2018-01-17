@@ -80,6 +80,18 @@ char		*ft_send_message(t_env **env, char **argv, int c_index)
 	char	*msg;
 
 	/*
+	** Count
+	*/
+
+	int 	count;
+
+	/*
+	** Initialize count
+	*/
+
+	count = 0;
+
+	/*
 	** Find the user by using the client index unique to the user
 	*/
 
@@ -108,11 +120,36 @@ char		*ft_send_message(t_env **env, char **argv, int c_index)
 			{
 
 				/*
-				** copy into env instead of {} returned so wbuf is updated in memory
+				** write into the wbuf
 				*/
 
-				// ft_strclr((*env)->users[reciever->c_index].wbuf);
-				// ft_strcpy((*env)->users[reciever->c_index].wbuf, msg);
+				while (msg[count])
+				{
+					/*
+					** Only add to the queue if there is no space (this circular buffer does not overlap)
+					** If there is no more space, exit the loop
+					*/
+
+					if (!ft_cbuf_full(&(*env)->users[reciever->c_index].wbuf))
+					{
+
+						/*
+						** Add character to the queue
+						*/
+
+						ft_cbuf_put(&(*env)->users[reciever->c_index].wbuf, msg[count]);
+
+					}
+					else
+						break ;
+
+					/*
+					** Increment pointer
+					*/
+
+					count++;
+
+				}
 
 				/*
 				** Indicate to the user that the message was sent

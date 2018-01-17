@@ -78,7 +78,7 @@ void		ft_check_client(t_env **env, int *nready)
 				** Handle command
 				*/
 
-				if (ft_strchr((const char *)user[i].rbuf.buf, '\n'))
+				if (user[i].rbuf.done)
 				{
 
 					/*
@@ -105,7 +105,7 @@ void		ft_check_client(t_env **env, int *nready)
 							** Add character to the queue
 							*/
 
-							ft_cbuf_put(&user[i].wbuf, ((const unsigned char *) resp)[count]);
+							ft_cbuf_put(&user[i].wbuf, resp[count]);
 
 						}
 						else

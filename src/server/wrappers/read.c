@@ -87,6 +87,27 @@ ssize_t			ft_read(int fd, t_cbuf *buf, size_t nbytes)
 		{
 
 			/*
+			** Dont copy the newline
+			*/
+
+			if (ptr[count] == '\n')
+			{
+			
+				/*
+				** Found EOF, set done (handle write)
+				*/
+
+				buf->done = TRUE;
+
+				/*
+				** Exit without copying the newline
+				*/
+
+				break ;
+
+			}
+			
+			/*
 			** Add character to the queue
 			*/
 

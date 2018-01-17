@@ -72,6 +72,12 @@ typedef struct 			s_cbuf
 
 	int 				count;
 
+	/*
+	** Done reading/writing
+	*/
+
+	int 				done;
+
 }						t_cbuf;
 
 /*
@@ -388,7 +394,7 @@ int   					ft_cbuf_get(t_cbuf *buf);
 ** Put a byte to the circular buffer queue (HEAD)
 */
 
-void  					ft_cbuf_put(t_cbuf *buf, const unsigned char c);
+void  					ft_cbuf_put(t_cbuf *buf, const char c);
 
 /*
 ** Flush the queue and optionally clear the buffer bytes to 0

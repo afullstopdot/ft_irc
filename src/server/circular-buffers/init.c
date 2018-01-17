@@ -34,4 +34,10 @@ void	ft_cbuf_init(t_cbuf *buf)
 
 	ft_strclr(buf->buf);
 
+	/*
+	** Set if finished
+	*/
+
+	buf->done = FALSE;
+
 }
