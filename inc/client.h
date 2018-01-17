@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error.c                                            :+:      :+:    :+:   */
+/*   client.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amarquez <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,25 +10,55 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-# include <server.h>
+#ifndef CLIENT_H
+# define CLIENT_H
+
+# include <sys/select.h>
 
 /*
-** Fatal error, end program
+** header with prototypes, headers and constants used by both server & client
 */
 
-void    ft_fatal_error(char *msg)
+# include <irc.h>
+# include <netdb.h>
+
+/*
+** Client environment
+*/
+
+typedef struct 			s_cli
 {
 
 	/*
-	** colorful error message lol
+	** States if the client connected to the server
 	*/
 
-    printf("irc: %s%s%s\n", C_RED, msg, C_RST);
+	int					connected;
 
-    /*
-    ** exit with failed status code
-    */
+	/*
+	** Server fd
+	*/
 
-    exit(EXIT_FAILURE);
+	int					servfd;
 
-}
+}						t_cli;
+
+/*
+** return the IPv4 address of a DNS
+*/
+
+char                	*ft_resolve_host(char *argv);
+
+/*
+** Connect the client to the server
+*/
+
+void 					ft_connect_to_server(t_cli *env, char **argv);
+
+/*
+** Fill socket address
+*/
+
+void					ft_set_sockaddr(struct sockaddr *sa, int family, int port, in_addr_t address);
+
+#endif
