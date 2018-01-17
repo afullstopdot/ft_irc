@@ -16,7 +16,7 @@
 ** Handle commands
 */
 
-char		*ft_handle_command(t_env **env, char *buf, int c_index)
+char		*ft_handle_command(t_env **env, const char *buf, int c_index)
 {
 
 	char	**argv;

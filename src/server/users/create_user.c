@@ -35,17 +35,11 @@ void		ft_create_user(t_env **env, int c_index)
 		ft_memset(user->nick, 0, NICKNAME_MAX);
 
 		/*
-		** Initialize read and write circular buffers
+		** Initialize buffers
 		*/
 
-		if ((user->rbuf = (ringBufS *)malloc(sizeof(ringBufS))) &&
-			(user->wbuf = (ringBufS *)malloc(sizeof(ringBufS))))
-		{
-			ringBufS_init(user->rbuf);
-			ringBufS_init(user->wbuf);
-		}
-		else
-			ft_fatal_error("Unable to allocate memory for circular buffers");
+		ringBufS_init(&user->rbuf);
+		ringBufS_init(&user->wbuf);
 		
 		/*
 		** Set index of user in clients array

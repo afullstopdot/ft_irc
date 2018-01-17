@@ -50,7 +50,7 @@ typedef struct 			ringBufS
 	** This is the managed buffer. The size of this buffer BUFFSIZE
 	*/
 
-	unsigned char 		buf[BUFFSIZE];
+	char 				buf[BUFFSIZE];
 
 	/*
 	** This is the head index. 
@@ -100,11 +100,16 @@ typedef struct 			s_user
 	struct s_channels	*curr_channel;
 
 	/*
-	** Circular buffers
+	** Read Circular buffer
 	*/
 
-	struct ringBufS 	*rbuf;
-	struct ringBufS 	*wbuf;
+	struct ringBufS 	rbuf;
+
+	/*
+	** Write Circular buffer
+	*/
+
+	struct ringBufS 	wbuf;
 
 	/*
 	** Next
@@ -263,7 +268,7 @@ void					ft_create_user(t_env **env, int c_index);
 ** Handle commands
 */
 
-char					*ft_handle_command(t_env **env, char *buf, int c_index);
+char					*ft_handle_command(t_env **env, const char *buf, int c_index);
 
 /*
 ** set username

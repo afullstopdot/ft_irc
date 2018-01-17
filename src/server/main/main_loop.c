@@ -63,9 +63,14 @@ void					ft_main_loop(t_env **env)
 
 			if ((sockfd != (*env)->listenfd))
 			{
-				printf("setting in wset\n");
-				if ((*env)->users[i].wbuf->buf && ft_strchr((const char *)(*env)->users[i].wbuf->buf, '\n'))
+
+				/*
+				** Check if we can write to the buffer
+				*/
+
+				if (ft_strchr((const char *)(*env)->users[i].wbuf.buf, '\n'))
 					FD_SET(sockfd, &(*env)->wset);
+			
 			}
 
 			

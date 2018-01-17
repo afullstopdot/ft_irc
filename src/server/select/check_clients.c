@@ -56,12 +56,12 @@ void		ft_check_client(t_env **env, int *nready)
 
 		if (FD_ISSET(sockfd, &(*env)->rset))
 		{
-ft_putendl(":read");
+
 			/*
 			** Read from client
 			*/
 
-			if ((n = ft_read(sockfd, (*env)->users[i].rbuf, MAXLINE)) == 0)
+			if ((n = ft_read(sockfd, &(*env)->users[i].rbuf, MAXLINE)) == 0)
 			{
 
 				/*
@@ -73,19 +73,19 @@ ft_putendl(":read");
 			}
 			else
 			{
-ft_putendl(":handle");
+
 				/*
 				** Handle command
 				*/
 
-				if (ft_strchr((const char *)user[i].rbuf->buf, '\n'))
+				if (ft_strchr((const char *)user[i].rbuf.buf, '\n'))
 				{
 
 					/*
 					** Handle the command in the buf
 					*/
 
-					resp = ft_handle_command(&(*env), (char *)user[i].rbuf->buf, i);
+					resp = ft_handle_command(&(*env), user[i].rbuf.buf, i);
 
 					/*
 					** write into the wbuf
@@ -98,14 +98,14 @@ ft_putendl(":handle");
 						** If there is no more space, exit the loop
 						*/
 
-						if (!ringBufS_full(user[i].wbuf))
+						if (!ringBufS_full(&user[i].wbuf))
 						{
 
 							/*
 							** Add character to the queue
 							*/
 
-							ringBufS_put(user[i].wbuf, ((const unsigned char *) resp)[count]);
+							ringBufS_put(&user[i].wbuf, ((const unsigned char *) resp)[count]);
 
 						}
 						else
@@ -131,7 +131,7 @@ ft_putendl(":handle");
 					** Clear our rbuf now
 					*/
 
-					ringBufS_flush(user[i].rbuf, TRUE);
+					ringBufS_flush(&user[i].rbuf, TRUE);
 
 				}
 
@@ -148,13 +148,13 @@ ft_putendl(":handle");
 		if (FD_ISSET(sockfd, &(*env)->wset))
 		{
 
-			ft_writen(sockfd, (char *)user[i].wbuf->buf, user[i].wbuf->count);
+			ft_writen(sockfd, (char *)user[i].wbuf.buf, user[i].wbuf.count);
 
 			/*
 			** Clear our rbuf now
 			*/
 
-			ringBufS_flush(user[i].wbuf, TRUE);
+			ringBufS_flush(&user[i].wbuf, TRUE);
 
 			if (--(*nready) <= 0)
 				break;
