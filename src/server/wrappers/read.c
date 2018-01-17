@@ -16,7 +16,7 @@
 ** read from a file descriptor into a circular buffer
 */
 
-ssize_t			ft_read(int fd, ringBufS *_this, size_t nbytes)
+ssize_t			ft_read(int fd, t_cbuf *buf, size_t nbytes)
 {
 
 	/*
@@ -53,8 +53,8 @@ ssize_t			ft_read(int fd, ringBufS *_this, size_t nbytes)
 	** Check that the ring buffer is not a NULL pointer
 	*/
 
-	if (!_this)
-		ft_fatal_error("NULL pointer bitch");
+	if (!buf)
+		ft_fatal_error("NULL pointer, cannot read into circular buffer");
 
 	/*
 	** Attempt to read
@@ -83,14 +83,14 @@ ssize_t			ft_read(int fd, ringBufS *_this, size_t nbytes)
 		** If there is no more space, exit the loop
 		*/
 
-		if (!ringBufS_full(_this))
+		if (!ft_cbuf_full(buf))
 		{
 
 			/*
 			** Add character to the queue
 			*/
 
-			ringBufS_put(_this, ((const unsigned char *) ptr)[count]);
+			ft_cbuf_put(buf, ((const unsigned char *) ptr)[count]);
 
 		}
 		else

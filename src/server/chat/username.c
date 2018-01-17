@@ -49,6 +49,8 @@ char		*ft_set_username(t_env **env, char **argv, int c_index)
 				if (ft_strlen(argv[1]) <= NICKNAME_MAX)
 				{
 
+					ft_strclr(head->nick);
+
 					/*
 					** copy into string
 					*/

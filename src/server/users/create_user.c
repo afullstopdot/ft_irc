@@ -38,8 +38,8 @@ void		ft_create_user(t_env **env, int c_index)
 		** Initialize buffers
 		*/
 
-		ringBufS_init(&user->rbuf);
-		ringBufS_init(&user->wbuf);
+		ft_cbuf_init(&user->rbuf);
+		ft_cbuf_init(&user->wbuf);
 		
 		/*
 		** Set index of user in clients array

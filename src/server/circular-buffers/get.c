@@ -17,18 +17,21 @@
 ** Return of integer to indicate if an attempt was made t retrieve and empty queue
 */
 
-int ringBufS_get (ringBufS *_this)
+int     ft_cbuf_get(t_cbuf *buf)
 {
     int c;
-    if (_this->count>0)
+
+    if (buf->count > 0)
     {
-      c           = _this->buf[_this->tail];
-      _this->tail = modulo_inc (_this->tail, BUFFSIZE);
-      --_this->count;
+
+		c = buf->buf[buf->tail];
+		buf->tail = ft_modulo_inc(buf->tail, BUFFSIZE);
+		--buf->count;
+
     }
     else
-    {
-      c = -1;
-    }
+		c = -1;
+
     return (c);
+
 }

@@ -16,10 +16,10 @@
 ** Determine whether or not the circular buffer queue is empty
 */
 
-int ringBufS_empty (ringBufS *_this)
+int ft_cbuf_empty(t_cbuf *buf)
 {
 
-	return (0 == _this->count);
+	return (0 == buf->count);
 
 }
 
@@ -27,9 +27,9 @@ int ringBufS_empty (ringBufS *_this)
 ** Determine whether or not the circular buffer queue is full
 */
 
-int ringBufS_full (ringBufS *_this)
+int ft_cbuf_full(t_cbuf *buf)
 {
 
-    return (_this->count >= BUFFSIZE);
+    return (buf->count >= BUFFSIZE);
 
 }

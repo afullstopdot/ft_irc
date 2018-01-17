@@ -16,12 +16,16 @@
 ** Put a byte to the queue, incoming byte is dropped if the queue is full
 */
 
-void ringBufS_put (ringBufS *_this, const unsigned char c)
+void	ft_cbuf_put(t_cbuf *buf, const unsigned char c)
 {
-    if (_this->count < BUFFSIZE)
+
+    if (buf->count < BUFFSIZE)
     {
-      _this->buf[_this->head] = c;
-      _this->head = modulo_inc (_this->head, BUFFSIZE);
-      ++_this->count;
+
+		buf->buf[buf->head] = c;
+		buf->head = ft_modulo_inc(buf->head, BUFFSIZE);
+		++buf->count;
+
     }
+
 }

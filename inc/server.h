@@ -43,7 +43,7 @@
 ** Circular buffer
 */
 
-typedef struct 			ringBufS
+typedef struct 			s_cbuf
 {
 
 	/*
@@ -72,7 +72,7 @@ typedef struct 			ringBufS
 
 	int 				count;
 
-}						ringBufS;
+}						t_cbuf;
 
 /*
 ** User information
@@ -103,13 +103,13 @@ typedef struct 			s_user
 	** Read Circular buffer
 	*/
 
-	struct ringBufS 	rbuf;
+	struct s_cbuf 		rbuf;
 
 	/*
 	** Write Circular buffer
 	*/
 
-	struct ringBufS 	wbuf;
+	struct s_cbuf 		wbuf;
 
 	/*
 	** Next
@@ -268,7 +268,7 @@ void					ft_create_user(t_env **env, int c_index);
 ** Handle commands
 */
 
-char					*ft_handle_command(t_env **env, const char *buf, int c_index);
+char					*ft_handle_command(t_env **env, const char *buf, const int c_index);
 
 /*
 ** set username
@@ -364,44 +364,49 @@ t_user					*ft_find_user_by_key(t_env **env, int c_index);
 ** Initialize the circular buffer queue
 */
 
-void  					ringBufS_init(ringBufS *_this);
+void  					ft_cbuf_init(t_cbuf *buf);
 
 /*
 ** Determine whether or not the circular buffer queue is empty
 */
 
-int 					ringBufS_empty(ringBufS *_this);
+int 					ft_cbuf_empty(t_cbuf *buf);
 
 /*
 ** Determine whether or not the circular buffer queue is full
 */
 
-int   					ringBufS_full(ringBufS *_this);
+int   					ft_cbuf_full(t_cbuf *buf);
 
 /*
 ** Get a byte from the queue (TAIL)
 */
 
-int   					ringBufS_get(ringBufS *_this);
+int   					ft_cbuf_get(t_cbuf *buf);
 
 /*
 ** Put a byte to the circular buffer queue (HEAD)
 */
 
-void  					ringBufS_put(ringBufS *_this, const unsigned char c);
+void  					ft_cbuf_put(t_cbuf *buf, const unsigned char c);
 
 /*
 ** Flush the queue and optionally clear the buffer bytes to 0
 */
 
-void  					ringBufS_flush(ringBufS *_this, const int clearBuffer);
+void  					ft_cbuf_flush(t_cbuf *buf, const int clearBuffer);
 
 /*
 ** Modulo for circular buffer
 */
 
-unsigned int 			modulo_inc(const unsigned int value, const unsigned int modulus);
-unsigned int 			modulo_dec(const unsigned int value, const unsigned int modulus);
-ssize_t					ft_read(int fd, ringBufS *_this, size_t nbytes);
+unsigned int 			ft_modulo_inc(const unsigned int value, const unsigned int modulus);
+unsigned int 			ft_modulo_dec(const unsigned int value, const unsigned int modulus);
+
+/*
+** Read into the circular buffer
+*/
+
+ssize_t					ft_read(int fd, t_cbuf *buf, size_t nbytes);
 
 #endif

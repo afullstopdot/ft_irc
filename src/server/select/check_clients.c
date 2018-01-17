@@ -98,14 +98,14 @@ void		ft_check_client(t_env **env, int *nready)
 						** If there is no more space, exit the loop
 						*/
 
-						if (!ringBufS_full(&user[i].wbuf))
+						if (!ft_cbuf_full(&user[i].wbuf))
 						{
 
 							/*
 							** Add character to the queue
 							*/
 
-							ringBufS_put(&user[i].wbuf, ((const unsigned char *) resp)[count]);
+							ft_cbuf_put(&user[i].wbuf, ((const unsigned char *) resp)[count]);
 
 						}
 						else
@@ -131,7 +131,7 @@ void		ft_check_client(t_env **env, int *nready)
 					** Clear our rbuf now
 					*/
 
-					ringBufS_flush(&user[i].rbuf, TRUE);
+					ft_cbuf_flush(&user[i].rbuf, TRUE);
 
 				}
 
@@ -154,7 +154,7 @@ void		ft_check_client(t_env **env, int *nready)
 			** Clear our rbuf now
 			*/
 
-			ringBufS_flush(&user[i].wbuf, TRUE);
+			ft_cbuf_flush(&user[i].wbuf, TRUE);
 
 			if (--(*nready) <= 0)
 				break;

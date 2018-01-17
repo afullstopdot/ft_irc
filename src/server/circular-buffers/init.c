@@ -19,9 +19,19 @@
 ** and sets head = tail
 */
 
-void ringBufS_init (ringBufS *_this)
+void	ft_cbuf_init(t_cbuf *buf)
 {
 
-	ft_memset (_this, 0, sizeof (*_this));
+	/*
+	** Initialize
+	*/
+
+	ft_memset(buf, 0, sizeof (*buf));
+
+	/*
+	** Clear str
+	*/
+
+	ft_strclr(buf->buf);
 
 }
