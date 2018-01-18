@@ -4,21 +4,21 @@
 ** Wrapper for ft_connect_to_server
 */
 
-char	*ft_wconnect_to_client(t_cli *env, char **argv)
+char	*ft_wconnect_to_client(t_cli **env, char **argv)
 {
 
 	/*
 	** check that we are using valid arguments
 	*/
 
-	if (env && argv)
+	if ((*env) && argv)
 	{
 
 		/*
 		** return if we are connected already
 		*/
 
-		if (env->connected)
+		if ((*env)->connected)
 			return (ft_resp(C_YEL, "$[client]: you are already connected to the server\n"));
 
 		/*

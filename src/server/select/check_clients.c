@@ -136,6 +136,10 @@ void		ft_check_client(t_env **env, int *nready)
 		if (FD_ISSET(sockfd, &(*env)->wset))
 		{
 
+			/*
+			** Write to current user
+			*/
+
 			ft_writen(sockfd, (char *)user[i].wbuf.buf, user[i].wbuf.count);
 
 			/*

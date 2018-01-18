@@ -4,7 +4,7 @@
 ** Connect the client to the server
 */
 
-void 					ft_connect_to_server(t_cli *env, char **argv)
+void 					ft_connect_to_server(t_cli **env, char **argv)
 {
 	struct sockaddr_in	servaddr;
 	char				*ip_addr;
@@ -14,7 +14,7 @@ void 					ft_connect_to_server(t_cli *env, char **argv)
 	** If we are connected already return
 	*/
 
-	if (env->connected)
+	if ((*env)->connected)
 		return ;
 
 	/*
@@ -51,18 +51,33 @@ void 					ft_connect_to_server(t_cli *env, char **argv)
 	** Assign sockfd to client env
 	*/
 
-	env->servfd = sockfd;
+	(*env)->servfd = sockfd;
 
 	/*
 	** Update connected
 	*/
 
-	env->connected = TRUE;
+	(*env)->connected = TRUE;
 
 	/*
 	** return
 	*/
 
 	return ;
+
+}
+
+/*
+** Wrapper for connecting to client
+*/
+
+void 					ft_wconnect(t_cli *env, char **argv)
+{
+
+	/*
+	** Connect the client to the server
+	*/
+
+	ft_connect_to_server(&env, argv);
 
 }

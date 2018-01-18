@@ -53,13 +53,19 @@ char                	*ft_resolve_host(char *argv);
 ** Connect the client to the server
 */
 
-void 					ft_connect_to_server(t_cli *env, char **argv);
+void 					ft_connect_to_server(t_cli **env, char **argv);
 
 /*
 ** Wrapper for ft_connect_to_server
 */
 
-char					*ft_wconnect_to_client(t_cli *env, char **argv);
+char					*ft_wconnect_to_client(t_cli **env, char **argv);
+
+/*
+** Wrapper for connecting to client
+*/
+
+void 					ft_wconnect(t_cli *env, char **argv);
 
 /*
 ** Fill socket address
@@ -78,5 +84,17 @@ void					ft_init_env(t_cli *env);
 */
 
 char					*ft_handle(t_cli *env, char *buf);
+
+/*
+** Send msg to server
+*/
+
+char					*ft_send_to_server(t_cli **env, char *buf);
+
+/*
+** write to fd
+*/
+
+void					ft_send_response(char *buff, int connfd);
 
 #endif

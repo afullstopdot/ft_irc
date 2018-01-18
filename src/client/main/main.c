@@ -26,7 +26,7 @@ int				main(int argc, char **argv)
 	*/
 
 	if (argc == 3)
-		ft_connect_to_server(&env, argv);
+		ft_wconnect(&env, argv);
 
 	/*
 	** Read from stdin
@@ -46,7 +46,8 @@ int				main(int argc, char **argv)
 			** Handle the commands
 			*/
 
-			ft_putstr(ft_handle(&env, cmd));
+			ft_putendl(ft_handle(&env, cmd));
+			ft_putstr(C_RST);
 
 		}
 		else
