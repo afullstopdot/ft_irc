@@ -56,9 +56,27 @@ char                	*ft_resolve_host(char *argv);
 void 					ft_connect_to_server(t_cli *env, char **argv);
 
 /*
+** Wrapper for ft_connect_to_server
+*/
+
+char					*ft_wconnect_to_client(t_cli *env, char **argv);
+
+/*
 ** Fill socket address
 */
 
 void					ft_set_sockaddr(struct sockaddr *sa, int family, int port, in_addr_t address);
+
+/*
+** Initialize the client env
+*/
+
+void					ft_init_env(t_cli *env);
+
+/*
+** Handle the user input
+*/
+
+char					*ft_handle(t_cli *env, char *buf);
 
 #endif

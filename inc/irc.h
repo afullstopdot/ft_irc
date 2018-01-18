@@ -187,4 +187,16 @@ unsigned int 			ft_modulo_dec(const unsigned int value, const unsigned int modul
 
 ssize_t					ft_read(int fd, t_cbuf *buf, size_t nbytes);
 
+/*
+** color message
+*/
+
+char					*ft_resp(char *start, char *msg);
+
+/*
+** invalid command
+*/
+
+char					*ft_invalid_command(void);
+
 #endif

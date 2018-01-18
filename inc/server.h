@@ -236,12 +236,6 @@ char					*ft_set_username(t_env **env, char **argv, int c_index);
 char					*ft_get_username(t_env **env, int c_index);
 
 /*
-** invalid command
-*/
-
-char					*ft_invalid_command(void);
-
-/*
 ** success msg
 */
 
@@ -252,12 +246,6 @@ char					*ft_usuccess(char *msg);
 */
 
 char					*ft_uerror(char *msg);
-
-/*
-** color message
-*/
-
-char					*ft_resp(char *start, char *msg);
 
 /*
 ** Create a channel if it does not exists

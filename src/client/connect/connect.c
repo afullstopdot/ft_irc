@@ -11,6 +11,13 @@ void 					ft_connect_to_server(t_cli *env, char **argv)
 	int					sockfd;
 
 	/*
+	** If we are connected already return
+	*/
+
+	if (env->connected)
+		return ;
+
+	/*
 	** resolve host IP
 	*/
 

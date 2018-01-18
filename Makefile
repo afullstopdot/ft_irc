@@ -51,6 +51,12 @@ CONNECT_DIR = connect
 CONNECT_SRC := $(wildcard $(CLIENT_ROOT)/$(CONNECT_DIR)/*.c)
 CONNECT_OBJ := $(CONNECT_SRC:$(CLIENT_ROOT)/$(CONNECT_DIR)/%.c=$(OBJDIR)/client/$(CONNECT_DIR)/%.o)
 
+### CLIENT Main src & obj
+
+HANDLE_DIR = handle
+HANDLE_SRC := $(wildcard $(CLIENT_ROOT)/$(HANDLE_DIR)/*.c)
+HANDLE_OBJ := $(HANDLE_SRC:$(CLIENT_ROOT)/$(HANDLE_DIR)/%.c=$(OBJDIR)/client/$(HANDLE_DIR)/%.o)
+
 ### Wrappers src & obj
 
 WRAP_DIR = wrappers
@@ -131,7 +137,7 @@ $(OBJDIR):
 	@echo "\033[0;31m[server]: \033[0m\033[0;36mCreating "$@" directory!\033[0m"
 	@mkdir -p $@/server/$(INTERPRETER_DIR) $@/server/$(ERROR_DIR) $@/server/$(MAIN_DIR) $@/server/$(CREATE_DIR) $@/server/$(SELECT_DIR) $@/server/$(CHAT_DIR)
 	@mkdir -p $@/generic/$(WRAP_DIR) $@/generic/$(CB_DIR)
-	@mkdir -p $@/client/$(CMAIN_DIR) $@/client/$(CONNECT_DIR)
+	@mkdir -p $@/client/$(CMAIN_DIR) $@/client/$(CONNECT_DIR) $@/client/$(HANDLE_DIR)
 	@echo "\033[0;31m[server]: \033[0m\033[0;32mComplete!\033[0m"
 	
 # generic rukes
@@ -195,10 +201,10 @@ $(CHAT_OBJ): $(OBJDIR)/server/$(CHAT_DIR)/%.o : $(SERVER_ROOT)/$(CHAT_DIR)/%.c
 
 # client rules
 
-$(BINDIR)/$(CLIENT_EXE): $(CMAIN_OBJ) $(CONNECT_OBJ) $(ERROR_OBJ) $(WRAP_OBJ) $(CB_OBJ)
+$(BINDIR)/$(CLIENT_EXE): $(CMAIN_OBJ) $(CONNECT_OBJ) $(ERROR_OBJ) $(WRAP_OBJ) $(CB_OBJ) $(HANDLE_OBJ)
 	@make -C libft
 	@echo "\033[0;31m[client]: \033[0mLinking object files!"
-	@$(LINKER) $(CMAIN_OBJ) $(CONNECT_OBJ) $(ERROR_OBJ) $(WRAP_OBJ) $(CB_OBJ) $(FLAGS) -o $@ $(LIBFT) -I $(INCDIR) $(LIBFT_H) -fPIC
+	@$(LINKER) $(CMAIN_OBJ) $(CONNECT_OBJ) $(ERROR_OBJ) $(WRAP_OBJ) $(CB_OBJ) $(HANDLE_OBJ) $(FLAGS) -o $@ $(LIBFT) -I $(INCDIR) $(LIBFT_H) -fPIC
 	@chmod +x $@
 	@echo "\033[0;31m[client]: \033[0mLinking complete!"
 
@@ -215,13 +221,19 @@ $(CONNECT_OBJ): $(OBJDIR)/client/$(CONNECT_DIR)/%.o : $(CLIENT_ROOT)/$(CONNECT_D
 	@echo "\033[0;35m[CONNECT]: \033[0mCompiled \033[0;36m"$<"\033[0m successfully!"
 
 
+$(HANDLE_OBJ): $(OBJDIR)/client/$(HANDLE_DIR)/%.o : $(CLIENT_ROOT)/$(HANDLE_DIR)/%.c
+	@echo "\033[0;35m[HANDLE]: \033[0mCompiling source file \033[0;36m"$<"\033[0m!"
+	@$(CC) $(FLAGS) -c $< -o $@ -I $(INCDIR) $(LINK) $(LIBFT_H)
+	@echo "\033[0;35m[HANDLE]: \033[0mCompiled \033[0;36m"$<"\033[0m successfully!"
+
+
 # General rules
 
 .PHONY: clean fclean oclean re
 clean:
 	@echo "\033[0;36mRemoving object files\033[0m"
 	@rm -f $(INTERPRETER_OBJ) $(ERROR_OBJ) $(MAIN_OBJ) $(WRAP_OBJ) $(CREATE_OBJ) $(SELECT_OBJ) $(CHAT_OBJ) $(CB_OBJ)
-	@rm -f $(CMAIN_OBJ) $(CONNECT_OBJ)
+	@rm -f $(CMAIN_OBJ) $(CONNECT_OBJ) $(HANDLE_OBJ)
 	@echo "\033[0;32mCleanup complete\033[0m"
 
 
