@@ -23,6 +23,33 @@
 # include <netdb.h>
 
 /*
+** Nodes to read and write to
+*/
+
+typedef struct 			s_node
+{
+
+	/*
+	** Read Circular buffer
+	*/
+
+	struct s_cbuf 		rbuf;
+
+	/*
+	** Write Circular buffer
+	*/
+
+	struct s_cbuf 		wbuf;
+
+	/*
+	** next node
+	*/
+
+	struct s_node		*next;
+
+}						t_node;
+
+/*
 ** Client environment
 */
 
@@ -40,6 +67,48 @@ typedef struct 			s_cli
 	*/
 
 	int					servfd;
+
+	/*
+	** Client fd
+	*/
+
+	int 				listenfd;
+
+	/*
+	** maxfd + 1 is the current value of the first argument to select(2)
+	*/
+
+	int					maxfd;
+
+	/*
+	** The highest index in the client array that is currently in use
+	*/
+
+	int					maxi;
+
+	/*
+	** All the fds, client needs to write to
+	*/
+
+	int					client[FD_SETSIZE];
+
+	/*
+	** read set
+	*/
+
+	fd_set				rset;
+
+	/*
+	** write set
+	*/
+
+	fd_set				wset;
+
+	/*
+	** Nodes of fd to read/write to
+	*/
+
+	struct s_node 		*nodes;
 
 }						t_cli;
 
@@ -96,5 +165,24 @@ char					*ft_send_to_server(t_cli **env, char *buf);
 */
 
 void					ft_send_response(char *buff, int connfd);
+
+/*
+** Initialize values for select
+*/
+
+void					ft_init_select(t_cli *env);
+
+/*
+** Check all clients for data
+** Final version should use rotary buffers and not char pointers
+*/
+
+void					ft_check_client(t_cli **env, int *nready);
+
+/*
+** Main loop for handling clients simulantaneously
+*/
+
+void					ft_main_loop(t_cli *env);
 
 #endif

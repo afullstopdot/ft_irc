@@ -20,7 +20,13 @@ void			ft_init_env(t_cli *env)
 		** Server fd
 		*/
 
-		env->servfd = -1;		
+		env->servfd = -1;
+
+		/*
+		** Listen fd (STDIN)
+		*/
+
+		env->listenfd = STDIN_FILENO;
 
 	}
 

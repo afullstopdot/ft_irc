@@ -22,22 +22,9 @@ char		*ft_handle(t_cli *env, char *buf)
 
 		if (ft_strequ(ft_strtrim(argv[0]), "/connect") && argv[1] && argv[2])
 			return (ft_wconnect_to_client(&env, argv));
-
-		/*
-		** Send to server (select)
-		*/
-
-		else
-			return (ft_send_to_server(&env, buf));
 		
-		/*
-		** Write to server
-		*/
-
-		return (ft_invalid_command());
-
 	}
 
-	return (ft_invalid_command());
+	return (NULL);
 
 }

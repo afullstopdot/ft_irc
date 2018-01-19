@@ -10,16 +10,16 @@ int				main(int argc, char **argv)
 	t_cli		env;
 
 	/*
-	** User input
-	*/
-
-	char		*cmd;
-
-	/*
 	** Initialize the client env
 	*/
 
 	ft_init_env(&env);
+
+	/*
+	** Initialize select info
+	*/
+
+	ft_init_select(&env);
 
 	/*
 	** Check if the user is trying to connect on client startup
@@ -29,37 +29,10 @@ int				main(int argc, char **argv)
 		ft_wconnect(&env, argv);
 
 	/*
-	** Read from stdin
+	** Main loop for handling multiple clients simulaneously
 	*/
 
-	while ((cmd = ft_wreadline(0)))
-	{
-		
-		/*
-		** check that command is not empty
-		*/
-
-		if (ft_strlen(cmd))
-		{
-			
-			/*
-			** Handle the commands
-			*/
-
-			ft_putendl(ft_handle(&env, cmd));
-			ft_putstr(C_RST);
-
-		}
-		else
-			ft_strdel(&cmd);
-
-		/*
-		** Display prompt (username)
-		*/
-
-		
-
-	}
+	ft_main_loop(&env);
 
 	/*
 	** End
