@@ -24,6 +24,8 @@ size_t			writen(int fd, const void *vptr, size_t n)
 		nleft -= nwritten;
 		ptr   += nwritten;
 	}
+	// flush stdout
+	write(0, C_RST, ft_strlen(C_RST));
 	return (n);
 }
 

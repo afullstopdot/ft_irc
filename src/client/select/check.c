@@ -9,17 +9,14 @@ void		ft_check_client(t_cli **env, int *nready)
 {
 
 	int		i;
-	int		count;
 	int		sockfd;
 	size_t	n;
-
 
 	/*
 	** counter
 	*/
 
 	i = 0;
-	count = 0;
 
 	/*
 	** Check for fd in sets that can be read from
@@ -46,7 +43,7 @@ void		ft_check_client(t_cli **env, int *nready)
 			** Read from client
 			*/
 
-			if ((n = ft_read(sockfd, &(*env)->nodes[i].rbuf, MAXLINE)) == 0)
+			if ((n = ft_read(sockfd, &(*env)->nodes[i].rbuf, BUFFSIZE)) == 0)
 			{
 
 				/*
@@ -54,6 +51,17 @@ void		ft_check_client(t_cli **env, int *nready)
 				*/
 
 				ft_fatal_error("connection to server closed");
+
+			}
+			else
+			{
+
+				if ((*env)->nodes[i].rbuf.done)
+				{
+
+					ft_handle((*env), (*env)->nodes[i].rbuf.buf);
+
+				}
 
 			}
 
@@ -72,13 +80,13 @@ void		ft_check_client(t_cli **env, int *nready)
 			** Write to current user
 			*/
 
-			ft_writen(sockfd, (*env)->nodes[i].rbuf.buf, (*env)->nodes[i].rbuf.count);
+			ft_writen(sockfd, (*env)->nodes[i].wbuf.buf, (*env)->nodes[i].wbuf.count);
 
 			/*
 			** Clear our rbuf now
 			*/
 
-			ft_cbuf_flush(&(*env)->nodes[i].rbuf, TRUE);
+			ft_cbuf_flush(&(*env)->nodes[i].wbuf, TRUE);
 
 			if (--(*nready) <= 0)
 				break;

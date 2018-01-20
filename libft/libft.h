@@ -82,6 +82,7 @@ void				ft_strclr(char *s);
 void				ft_striter(char *s, void (*f)(char *));
 void				ft_striteri(char *s, void (*f)(unsigned int, char *));
 size_t				ft_strlen(char *src);
+size_t 				ft_dstrlen(char **argv);
 size_t				ft_strlcat(char *dest, const char *src, size_t size);
 int					ft_strcmp(const char *s1, const char *s2);
 int					ft_strncmp(const char *s1, const char *s2, size_t n);

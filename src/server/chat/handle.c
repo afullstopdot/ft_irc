@@ -13,7 +13,7 @@ char		*ft_handle_command(t_env **env, const char *buf, const int c_index)
 	** break recieved buffer to check if valid command > execute
 	*/
 
-	if ((argv = ft_strsplit(buf, ' ')))
+	if ((argv = ft_strsplit(buf, ' ')) && ft_dstrlen(argv) > 0)
 	{
 
 		/*

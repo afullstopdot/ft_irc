@@ -14,7 +14,7 @@ void	ft_cbuf_flush(t_cbuf *buf, const int clearBuffer)
 	buf->count = 0;
 	buf->head = 0;
 	buf->tail = 0;
-	buf->done = 0;
+	buf->done = FALSE;
 
 	/*
 	** Clear the buffer aswell?

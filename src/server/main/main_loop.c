@@ -56,7 +56,8 @@ void					ft_main_loop(t_env **env)
 				** Check if we can write to the buffer
 				*/
 
-				if (ft_strchr((const char *)(*env)->users[i].wbuf.buf, '\n'))
+				// if (ft_strchr((const char *)(*env)->users[i].wbuf.buf, '\n'))
+				if ((*env)->users[i].wbuf.done)
 					FD_SET(sockfd, &(*env)->wset);
 			
 			}

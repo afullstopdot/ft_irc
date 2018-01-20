@@ -49,7 +49,7 @@ void		ft_check_client(t_env **env, int *nready)
 			** Read from client
 			*/
 
-			if ((n = ft_read(sockfd, &(*env)->users[i].rbuf, MAXLINE)) == 0)
+			if ((n = ft_read(sockfd, &(*env)->users[i].rbuf, BUFFSIZE)) == 0)
 			{
 
 				/*
@@ -107,7 +107,7 @@ void		ft_check_client(t_env **env, int *nready)
 
 					}
 
-					count = 0;
+					user[i].wbuf.done = TRUE;
 
 					/*
 					** Free up some memory

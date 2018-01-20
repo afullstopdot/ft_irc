@@ -9,10 +9,7 @@ void					ft_main_loop(t_cli *env)
 	int					nready;
 	int 				i;
 	int					sockfd;
-	struct timeval tmo;
 
-tmo.tv_sec = 5;
-    tmo.tv_usec = 0;
 	/*
 	** Infinite loop
 	*/
@@ -26,12 +23,6 @@ tmo.tv_sec = 5;
 
 		FD_ZERO(&env->rset);
 		FD_ZERO(&env->wset);
-
-		/*
-		** Set listenfd (accept new clients) on readset only
-		*/
-
-		FD_SET(env->listenfd, &env->rset);
 
 		/*
 		** Set the fds we want to read/write
@@ -51,7 +42,7 @@ tmo.tv_sec = 5;
 			** Check if we can write to the buffer
 			*/
 
-			if (env->nodes[i].rbuf.done)
+			if (env->nodes[i].wbuf.done)
 				FD_SET(sockfd, &env->wset);
 			
 			/*
@@ -66,7 +57,7 @@ tmo.tv_sec = 5;
 		** read select
 		*/
 
-		nready = ft_select(env->maxfd + 1, &env->rset, &env->wset, NULL, &tmo);
+		nready = ft_select(env->maxfd + 1, &env->rset, &env->wset, NULL, NULL);
 
 		/*
 		** Check descriptors

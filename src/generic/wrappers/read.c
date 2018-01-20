@@ -23,7 +23,7 @@ ssize_t			ft_read(int fd, t_cbuf *buf, size_t nbytes)
 	** Buffer for reading
 	*/
 
-	char		ptr[MAXLINE];
+	char		ptr[BUFFSIZE];
 
 	/*
 	** Initialise coubnt
