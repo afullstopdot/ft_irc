@@ -91,7 +91,7 @@ char		*ft_send_message(t_env **env, char **argv, int c_index)
 		*/
 
 		if (!ft_strlen(sender->nick))
-			return (ft_resp(C_RED, "$[server]: username must be set before joining a channel\n"));
+			return (ft_resp(C_RED, "$[server]: username must be set before sending a msg\n"));
 
 		/*
 		** Find the client to send the message to
@@ -138,6 +138,12 @@ char		*ft_send_message(t_env **env, char **argv, int c_index)
 					count++;
 
 				}
+
+				/*
+				** Set ad done
+				*/
+
+				(*env)->users[reciever->c_index].wbuf.done = TRUE;
 
 				/*
 				** Indicate to the user that the message was sent
